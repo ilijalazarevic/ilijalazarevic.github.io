@@ -1,3 +1,144 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-07-07T22:54:07+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Wholesome blog about daily digests</title><link href="https://ilijalazarevic.com/post-first-rant/" rel="alternate" type="text/html" title="Wholesome blog about daily digests" /><published>2023-07-07T07:14:21+02:00</published><updated>2023-07-07T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-first-rant</id><content type="html" xml:base="https://ilijalazarevic.com/post-first-rant/"><![CDATA[<p>As stated in the description of this blog post, I want to start sharing my work, snippets, adventures, and thoughts with you, yes you!</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-07-11T17:33:08+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Is Python pass by value or pass by reference?</title><link href="http://localhost:4000/post-python-variable-passing/" rel="alternate" type="text/html" title="Is Python pass by value or pass by reference?" /><published>2023-07-10T14:21:28+02:00</published><updated>2023-07-10T14:21:28+02:00</updated><id>http://localhost:4000/post-python-variable-passing</id><content type="html" xml:base="http://localhost:4000/post-python-variable-passing/"><![CDATA[<p>This question is ubiquitous in all programming languages. Once you start using your programming language of choice for more than just simple programs and purposes, you will have to deal with more intermediate and advanced concepts. One of these is how function arguments are passed: by value or by reference?</p>
 
-<p>Well, I had an idea about putting up the poster of Uncle Sam, but.. heck, that would be too much. Let’s keep it quiet…er.</p>]]></content><author><name>Ilija Lazarevic</name></author><category term="me" /><summary type="html"><![CDATA[This is my first blog in a series about everything I do and part of what I think.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ilijalazarevic.com/apa-itu-shell/shell_evolution.png" /><media:content medium="image" url="https://ilijalazarevic.com/apa-itu-shell/shell_evolution.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>Why is this something that is not that simple or easy to grasp? Well, you have to make sure you know what is happening with memory management once your program is running. Also, this certainly requires knowing the intricacies of language syntax and semantics. And if you have experience using lower-level languages like C or C++, you will know that similar questions bring a whole new level of advanced concepts like pointers, references, differences between them, and best practices for using them. It is not for the faint-hearted, I can tell you that.</p>
+
+<p>Let’s start gently.</p>
+
+<p>As a beginner, you may decide to define specific function for getting the circle circumference knowing the radius. And you may define it like this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">def</span> <span class="nf">circumference</span><span class="p">(</span><span class="n">radius</span><span class="p">):</span>
+    <span class="c1"># let's keep it simple and use this value for PI
+</span>    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span>  <span class="n">radius</span> <span class="o">*</span> <span class="mf">3.14</span>
+
+</code></pre></div></div>
+
+<p>Calling this function by passing the value for <code class="language-plaintext highlighter-rouge">radius</code> is easy and intuitive. You pass the value, and you get the result. What else is there to it?</p>
+
+<p>Now, let’s say you want to count how many times you have called the function, by introducing the new variable <code class="language-plaintext highlighter-rouge">count</code> and passing it as the second argument of our function.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">circumference</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">3.14</span>
+</code></pre></div></div>
+
+<p>What would be the result of the function call?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n_calls</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">circumference</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_calls</span><span class="p">))</span>
+<span class="c1"># 6.28
+</span><span class="k">print</span><span class="p">(</span><span class="n">n_calls</span><span class="p">)</span>
+<span class="c1"># 0
+</span></code></pre></div></div>
+
+<p>The circumference is correct, but what happened with <code class="language-plaintext highlighter-rouge">n_calls</code>? Why is it still 0, and not 1? Here the “pass by value or pass by reference?” question arises.</p>
+
+<p>You probably already know that Python has one interesting function called <code class="language-plaintext highlighter-rouge">id</code> that returns the memory location of a variable. For example, we can redefine our function and print the memory location of the <code class="language-plaintext highlighter-rouge">count</code> variable:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">circumference</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'Old count memory location:'</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'New count memory location:'</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">3.14</span>
+</code></pre></div></div>
+
+<p>Now, we can print the memory location of our variable <code class="language-plaintext highlighter-rouge">n_calls</code> before we pass it to the function call, and the function will print the memory location of the <code class="language-plaintext highlighter-rouge">count</code> variable inside of it.</p>
+
+<p>Before you try out this one, let’s make a thought experiment while introducing the concepts of <em>pass by value</em> and <em>pass by reference</em>.</p>
+
+<p><strong>Pass by value</strong> means that each variable value that is passed as an argument in a function call is copied somewhere in computer memory, and that function argument name becomes the variable name that is assigned to it. This means that changing the value of this variable (<code class="language-plaintext highlighter-rouge">count</code> in our case) inside the function (value stored in a new memory location), doesn’t affect the value of the original variable (<code class="language-plaintext highlighter-rouge">n_calls</code>) value. How can we check if a new memory location is used for copying the variable value? <code class="language-plaintext highlighter-rouge">id</code> is our rescue.</p>
+
+<p><strong>Pass by reference</strong> means that changing the value of a variable by using the name defined in the function declaration (<code class="language-plaintext highlighter-rouge">count</code>) affects the value of the original variable (<code class="language-plaintext highlighter-rouge">n_calls</code>). How can we check for this? Well, we already did with trying to modify <code class="language-plaintext highlighter-rouge">n_calls</code> by changing <code class="language-plaintext highlighter-rouge">count</code> inside our function. From the example, you can clearly see that Python doesn’t pass function argument variables by reference.</p>
+
+<p>What is left for us is to try to make a proof that Python passes function argument variables by value, and we are done.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n_calls</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">n_calls</span><span class="p">))</span>
+<span class="c1"># 140472497733840
+</span><span class="k">print</span><span class="p">(</span><span class="n">circumference</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_calls</span><span class="p">))</span>
+<span class="c1"># Old count memory location: 140472497733840
+# New count memory location: 140472497733872
+# 6.28
+</span><span class="k">print</span><span class="p">(</span><span class="n">n_calls</span><span class="p">)</span>
+<span class="c1"># 0
+</span></code></pre></div></div>
+
+<p>Alright, this is interesting. Apparently, it looks like the memory location of <code class="language-plaintext highlighter-rouge">count</code> is the same as the memory location of <code class="language-plaintext highlighter-rouge">n_calls</code>. This totally overrules our conclusion that Python passes by value because, in that case, memory locations would be different. Yet, when we change <code class="language-plaintext highlighter-rouge">count</code> in the function, it doesn’t update <code class="language-plaintext highlighter-rouge">n_calls</code> in the caller (outer scope). So it’s not passing a Python reference either. What kind of black magic are we witnessing here?</p>
+
+<p>This is called <em>passing by object reference</em> or even better, <strong>objects are passed by reference value</strong>. When you think about it, it really supports what we saw with the initial memory location of <code class="language-plaintext highlighter-rouge">count</code> in a function call being exactly the same as the memory location of <code class="language-plaintext highlighter-rouge">n_calls</code>. One more thing to note is that instantiating a new value with <code class="language-plaintext highlighter-rouge">count + 1</code> and assigning it to <code class="language-plaintext highlighter-rouge">count</code> is in essence storing the value in a new memory location and reassigning the <code class="language-plaintext highlighter-rouge">count</code> variable name to a new location. This way, the count` variable now becomes a variable of the local scope (function scope).</p>
+
+<p>How does this affect your options as a developer?</p>
+
+<p>Well, if you want to achieve the effects of passing by reference, do not reassign the variable name to newly instantiated objects inside the function. What you can use is a mutable data structure, like a <code class="language-plaintext highlighter-rouge">list</code>, <code class="language-plaintext highlighter-rouge">dict</code>, or custom-defined object, and update their state while keeping the reference intact. Example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">circumference</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'Old count memory location:'</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+    <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'New count memory location:'</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">3.14</span>
+
+<span class="n">n_calls</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">n_calls</span><span class="p">))</span>
+<span class="c1"># 140472420555968
+</span><span class="k">print</span><span class="p">(</span><span class="n">circumference</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_calls</span><span class="p">))</span>
+<span class="c1"># Old count memory location: 140472430829632
+# New count memory location: 140472430829632
+# 6.28
+</span><span class="k">print</span><span class="p">(</span><span class="n">n_calls</span><span class="p">)</span>
+<span class="c1"># [1]
+</span></code></pre></div></div>
+
+<p>This way, you keep the reference (name) to the object that was created by the caller and just update the object’s state. Pretty much the same can be achieved with a dictionary or custom object.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">circumference</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'Old count memory location:'</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+    <span class="n">count</span><span class="p">[</span><span class="s">'calls'</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'New count memory location:'</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">3.14</span>
+
+<span class="n">n_calls</span> <span class="o">=</span> <span class="p">{</span><span class="s">'calls'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">n_calls</span><span class="p">))</span>
+<span class="c1"># 140472206558080
+</span><span class="k">print</span><span class="p">(</span><span class="n">circumference</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_calls</span><span class="p">))</span>
+<span class="c1"># Old count memory location: 140472206558080
+# New count memory location: 140472206558080
+# 6.28
+</span><span class="k">print</span><span class="p">(</span><span class="n">n_calls</span><span class="p">)</span>
+<span class="c1"># {'calls': 1}
+</span></code></pre></div></div>
+
+<p>I’ll leave you to do the experiment with custom objects.</p>
+
+<p>Why was this so important? Well, I think that some concepts can be tricky to fully grasp, and not knowing them will eventually come back to bite you. In the best-case scenario, you will get the error at runtime, and you will know that something has to be fixed. The worst-case scenario is when everything runs smoothly but the error affects the business logic. These are <em>unknown unknowns</em>.</p>
+
+<p>Check this out:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">var</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+    <span class="n">var</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">var</span>
+
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+<span class="c1"># (140472497734000, 140472497734032)
+</span>
+<span class="n">test</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="c1"># 140472497734000
+# 140472497734032
+# 6
+</span></code></pre></div></div>
+
+<p>What is happening here? I’ll probably write about this in some of my next blog posts.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><a href="https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference">Stackoverflow - How do I pass a variable by reference?</a></li>
+  <li><a href="https://realpython.com/python-pass-by-reference/">Pass by Reference in Python: Background and Best Practices</a></li>
+</ul>]]></content><author><name>Ilija Lazarevic</name></author><category term="python" /><category term="software" /><category term="development" /><summary type="html"><![CDATA[Is Python pass by value or pass by reference?]]></summary></entry><entry><title type="html">Wholesome blog about daily digests</title><link href="http://localhost:4000/post-first-rant/" rel="alternate" type="text/html" title="Wholesome blog about daily digests" /><published>2023-07-07T07:14:21+02:00</published><updated>2023-07-07T07:14:21+02:00</updated><id>http://localhost:4000/post-first-rant</id><content type="html" xml:base="http://localhost:4000/post-first-rant/"><![CDATA[<p>As stated in the description of this blog post, I want to start sharing my work, snippets, adventures, and thoughts with you, yes you!</p>
+
+<p>Well, I had an idea about putting up the poster of Uncle Sam, but.. heck, that would be too much. Let’s keep it quiet…er.</p>]]></content><author><name>Ilija Lazarevic</name></author><category term="me" /><summary type="html"><![CDATA[This is my first blog in a series about everything I do and part of what I think.]]></summary></entry></feed>
