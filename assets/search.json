@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Managing Python Versions and Virtual Environments",
+      "description" : "The best complementary tools for managing virtual environments in Python development process",
+      "tags"     : "python, software, development",
+      "url"      : "/post-python-virtual-environments/",
+      "date"     : "2023-07-13 14:21:28 +0200"
+    } ,
+  
+    {
       "title"    : "Is Python pass by value or pass by reference?",
       "description" : "Is Python pass by value or pass by reference?",
       "tags"     : "python, software, development",
