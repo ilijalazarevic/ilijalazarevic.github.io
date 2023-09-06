@@ -1,4 +1,231 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-09-06T17:46:17+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Functions</title><link href="https://ilijalazarevic.com/post-advanced-python-functions/" rel="alternate" type="text/html" title="Advanced Python: Functions" /><published>2023-09-06T07:14:21+02:00</published><updated>2023-09-06T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-functions</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-functions/"><![CDATA[<p>After reading the title, you probably ask yourself something along the lines of, “Functions in Python are an advanced concept? How? All courses introduce functions as the basic block in language.” And you are right and wrong at the same time.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-09-06T17:51:02+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Metaclasses</title><link href="https://ilijalazarevic.com/post-advanced-python-metaclasses-copy/" rel="alternate" type="text/html" title="Advanced Python: Metaclasses" /><published>2023-09-06T07:14:21+02:00</published><updated>2023-09-06T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-metaclasses%20copy</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-metaclasses-copy/"><![CDATA[<p>This article is purposefully going to be a bit advanced and there is at least two reasons.</p>
+
+<p>For one, the basic intros are already available everywhere, and it is a path walked a million times. For the reader who is trying to get things done in Python that will be more than enough.</p>
+
+<p>For two, more advanced talks about OOP mostly go in the direction of describing encapsulation, abstraction, inheritance and polymorphism, and how to use them in numerous design patterns guided by some of the principles in software engineering (for example <em>SOLID</em>).</p>
+
+<p>Now, my idea is to briefly write about how Python enables OOP paradigm. In essence, what is behind these lines of code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Back in the days when you learned about object-oriented programming, you most probably came across a general idea that describes what classes and objects are, and it goes like this:</p>
+
+<blockquote>
+  <blockquote>
+    <p>“Class is like a cookie mold. And objects are cookies molded by it”.</p>
+  </blockquote>
+</blockquote>
+
+<p>This is a very intuitive explanation and conveys the idea rather clearly. Having said that, our example defines two templates with little or no functionalities, but they work. You can play with defining the <code class="language-plaintext highlighter-rouge">__init__</code> method, set some object attributes, and make it more usable. However, what is interesting <strong>in Python</strong> is that <strong>even though a class is a “template” that is used to create objects from it, it is also an object itself.</strong> Everyone learning OOP in Python would quickly go over this statement, not really thinking in depth. Everything in Python is an object, so what? But once you start thinking about this, a lot of questions pop up, and interesting Python intricacies unravel.</p>
+
+<p>Before I start asking these questions for you, let’s remember that <strong>in Python, everything is an object</strong>. And I mean everything. This is probably something you already picked up, even if you are a newbie. The next example shows this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">Person</span><span class="p">)</span> 
+<span class="c1"># some memory location
+</span>
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">Child</span><span class="p">)</span>
+<span class="c1"># some memory location
+</span>
+<span class="c1"># Class objects are created, you can instantiate objects
+</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="c1"># some memory location
+</span></code></pre></div></div>
+
+<p>Based on these examples, here are some questions that you should ask yourself:</p>
+
+<ul>
+  <li>If a class is an object, when is it created?</li>
+  <li>Who creates class objects?</li>
+  <li>If class is an object, how come I’m able to call it when instantiating an object?</li>
+</ul>
+
+<h2 id="class-object-creation">Class object creation</h2>
+
+<p>Python is widely known as an interpreted language. This means there is an interpreter (program or process) that goes line by line and tries to translate it to machine code. This is opposed to compiled programming languages like C, where programming code is translated into machine code before you run it. This is a very simplified view. To be more precise, Python is both compiled and interpreted, but this is a subject for another time. What is important for our example is that the interpreter goes through the class definition, and once the class code block is finished, the class object is created. From then on, you are able to instantiate objects from it. You have to do this explicitly of course, even though class objects are instantiated implicitly.</p>
+
+<p>But what “process” is triggered when the interpreter finishes reading the class code block? We could go directly to details, but one chart speaks a thousand words:</p>
+
+<p><img src="../assets/img/chart_metaclass.png" alt="" /></p>
+
+<p>If you are not aware, Python has <code class="language-plaintext highlighter-rouge">type</code> functions that can be used for our purpose(s) now. By calling <code class="language-plaintext highlighter-rouge">type</code> with object as an argument, you will get object’s type. How ingenious! Take a look:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
+
+<span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="c1"># Child
+</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">Child</span><span class="p">)</span>
+<span class="c1"># type
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">type</code> call in the example makes sense. <code class="language-plaintext highlighter-rouge">c</code> is of type <code class="language-plaintext highlighter-rouge">Child</code>. We used a class (object) to create it. So in some way, you can think of <code class="language-plaintext highlighter-rouge">type(c)</code> giving you the name of its “creator”. And in a way, <code class="language-plaintext highlighter-rouge">Child</code> class is its creator because you called it to create a new instance. But what happens when you try to get the “creator” of the class object, <code class="language-plaintext highlighter-rouge">type(Child)</code>? You get <code class="language-plaintext highlighter-rouge">type</code>. To sum it up, <strong>object is an instance of a class, and a class is an instance of a type</strong>. By now you may be wondering how a class is an instance of a function, and the answer is: <code class="language-plaintext highlighter-rouge">type</code> is both a function and a class. This is intentionally left as it is because of backward compatibility back in the old days.</p>
+
+<p>What will make your head spin is the name we have for classes that are used to create class objects. It is <strong>metaclasses.</strong> And here it is important to make a distinction between inheritance from the perspective of the object-oriented paradigm and the mechanisms of a language that enable you to practice this paradigm. Metaclasses provide this mechanism. What can be even more confusing is that metaclasses are able to inherit parent classes just like regular ones can. But this can quickly become “inceptional” programming, so let’s not go that deep.</p>
+
+<p>Do we have to deal with these metaclasses on a daily basis? Well, no. In rare cases, you need to define and use them because, most of the time, default behavior is just fine.</p>
+
+<p>Let’s continue with our journey, this time with a new example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Something like this should be your very first OOP step in Python. You are taught that <code class="language-plaintext highlighter-rouge">__init__</code> is a constructor, where you set the values of your object attributes, and you are good to go. However, this <code class="language-plaintext highlighter-rouge">__init__</code> dunder method is exactly what it says: the initialization step. Isn’t it strange that you call it to initialize an object, and yet you get an object instance in return? There is no <code class="language-plaintext highlighter-rouge">return</code> in this method. So, how is this possible? Who returns the instance of a class?</p>
+
+<p>Very few learn at the start of their Python journey that there is another method that is called implicitly and is named <code class="language-plaintext highlighter-rouge">__new__</code>. This method actually creates an instance before <code class="language-plaintext highlighter-rouge">__init__</code> is called to initialize it. Here is an example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'new is called'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'init is called'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="c1"># new is called
+# init is called
+</span></code></pre></div></div>
+
+<p>What you’ll immediately see is that <code class="language-plaintext highlighter-rouge">__new__</code> returns <code class="language-plaintext highlighter-rouge">super().__new__(cls)</code>. This is a new instance. <code class="language-plaintext highlighter-rouge">super()</code> fetches the parent class of <code class="language-plaintext highlighter-rouge">Parent</code> which is implicitly <code class="language-plaintext highlighter-rouge">object</code> class. This class is inherited by all classes in Python. And is an object in itself too. Another innovative move by the Python creators!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">isinstance</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
+<span class="c1"># True
+</span></code></pre></div></div>
+
+<p>But what binds <code class="language-plaintext highlighter-rouge">__new__</code> and <code class="language-plaintext highlighter-rouge">__init__</code>? There has to be something more to how object instantiation is performed when we call <code class="language-plaintext highlighter-rouge">Parent('John' ,35)</code>. Take a look at it once again. You are invoking (calling) a class object, like a function.</p>
+
+<h2 id="python-callable">Python callable</h2>
+
+<p>Python, being a structurally typed language, enables you to define specific methods in your class that describe a Protocol (a way of using its object), and based on this, all instances of a class will behave in the expected way. Do not get intimidated if you are coming from other programming languages. Protocols are something like Interfaces in other languages. However, here we do not explicitly state that we are implementing a specific interface and, therefore, specific behavior. We just implement methods that are described by Protocol, and all objects are going to have that behavior. One of these Protocols is <em>Callable</em>. By implementing dunder method <code class="language-plaintext highlighter-rouge">__call__</code> you enable your object to be called like a function. See the example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'new is called'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'init is called'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Parent here!'</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="n">p</span><span class="p">()</span>
+<span class="c1"># Parent here!
+</span></code></pre></div></div>
+
+<p>By implementing <code class="language-plaintext highlighter-rouge">__call__</code> in the class definition, your class instances become <em>callable</em>. But what about <code class="language-plaintext highlighter-rouge">Parent('John', 35)</code>. How do you achieve the same with your class object? If object’s type definition (class) specifies that it is callable, then the class object type (type i.e. metaclass) should specify that the class object is callable too, right? Invocation of the dunder methods <code class="language-plaintext highlighter-rouge">__new__</code> and <code class="language-plaintext highlighter-rouge">__init__</code> happens there.</p>
+
+<p>At this point, it is time to start playing with metaclasses.</p>
+
+<h2 id="python-metaclasses">Python metaclasses</h2>
+
+<p>There are at least two ways you can change the process of class object creation. One is by using class decorators; the other is by explicitly specifying metalcass. We will describe the metaclass approach. Keep in mind that a metaclass looks like a regular class, and the only exception is that it has to inherit <code class="language-plaintext highlighter-rouge">type</code> class. Why? Because <code class="language-plaintext highlighter-rouge">type</code> class has all the implementation that is required for our code to still work as expected. For example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is called'</span>
+              <span class="sa">f</span><span class="s">' with args=</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s">, kwargs=</span><span class="si">{</span><span class="n">kwarg</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MyMeta</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'new is called'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'init is called'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="c1"># Parent is called with args=('John', 35), kwargs={}
+</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="c1"># NoneType
+</span></code></pre></div></div>
+
+<p>Here <code class="language-plaintext highlighter-rouge">MyMeta</code> is the drive force behind new class object instantiation and also specifies how new class instances are created. Take a closer look at the last two lines of the example. <code class="language-plaintext highlighter-rouge">p</code> holds nothing! But why? Because, as you can see, <code class="language-plaintext highlighter-rouge">MyMeta.__call__</code> just prints information and returns nothing. Explicitly, that is. Implicitly, that means that it returns <code class="language-plaintext highlighter-rouge">None</code>, which is of <code class="language-plaintext highlighter-rouge">NoneType</code>.</p>
+
+<p>How should we fix this?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">cls</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is called'</span>
+              <span class="sa">f</span><span class="s">'with args=</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s">, kwargs=</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'metaclass calls __new__'</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">cls</span><span class="p">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'metaclass calls __init__'</span><span class="p">)</span>
+            <span class="n">cls</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">obj</span>
+
+<span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MyMeta</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'new is called'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'init is called'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="c1"># Parent is called with args=('John', 35), kwargs={}
+# metaclass calls __new__
+# new is called
+# metaclass calls __init__
+# init is called
+</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="c1"># Parent
+</span>
+<span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="c1"># '&lt;__main__.Parent object at 0x103d540a0&gt;'
+</span></code></pre></div></div>
+
+<p>From the output, you can see what happens on <code class="language-plaintext highlighter-rouge">MyMeta.__call__</code>invocation. The provided implementation is just an example of how the whole thing works. You should be more careful if you plan to override parts of metaclasses yourself. There are some edge cases that you have to cover up. For example, one of the edge cases is that <code class="language-plaintext highlighter-rouge">Parent.__new__</code> can return an object that is not an instance of the <code class="language-plaintext highlighter-rouge">Parent</code> class. In that case, it is not going to be initialized by <code class="language-plaintext highlighter-rouge">Parent.__init__</code> method. That is the expected behavior you have to be aware of, and it really doesn’t make sense to initialize an object that is not an instance of the same class.</p>
+
+<p>Anyway, this would conclude the overview of what happens when you define a class and make an instance of it. Of course, you could go even further and see what happens during the class block interpretation. All of this happens in the metaclass too.</p>
+
+<p>Maybe I’ll write about it some time in the future. Until then, best of luck learning Python!</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><a href="https://jfreeman.dev/blog/2020/12/07/python-metaclasses/">Python Metaclasses</a></li>
+  <li><a href="https://www.honeybadger.io/blog/python-instantiation-metaclass/">Understanding Object Instantiation and Metaclasses in Python</a></li>
+</ul>]]></content><author><name>Ilija Lazarevic</name></author><category term="python" /><category term="oop" /><category term="advanced" /><summary type="html"><![CDATA[Metaclasses in Python are advanced concepts, but let's see if we can unpack the complexity.]]></summary></entry><entry><title type="html">Advanced Python: Functions</title><link href="https://ilijalazarevic.com/post-advanced-python-functions/" rel="alternate" type="text/html" title="Advanced Python: Functions" /><published>2023-08-01T07:14:21+02:00</published><updated>2023-08-01T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-functions</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-functions/"><![CDATA[<p>After reading the title, you probably ask yourself something along the lines of, “Functions in Python are an advanced concept? How? All courses introduce functions as the basic block in language.” And you are right and wrong at the same time.</p>
 
 <p>Most courses on Python introduce functions as a basic concept and building block because, without them, you would not be able to write functional code at all. This is totally different from the functional programming paradigm, which is a separate concept, but I shall touch upon this one too.</p>
 
@@ -346,234 +573,7 @@
   <li><a href="https://realpython.com/primer-on-python-decorators/">Primer on Python decorators</a></li>
   <li><a href="https://realpython.com/inner-functions-what-are-they-good-for/">Python Inner Functions: What Are They Good For?</a></li>
   <li><a href="https://docs.python.org/3/howto/enum.html">Enum HOWTO</a></li>
-</ul>]]></content><author><name>Ilija Lazarevic</name></author><category term="python" /><category term="oop" /><category term="advanced" /><summary type="html"><![CDATA[Python functions advanced concepts]]></summary></entry><entry><title type="html">Advanced Python: Metaclasses</title><link href="https://ilijalazarevic.com/post-advanced-python-metaclasses-copy/" rel="alternate" type="text/html" title="Advanced Python: Metaclasses" /><published>2023-09-06T07:14:21+02:00</published><updated>2023-09-06T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-metaclasses%20copy</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-metaclasses-copy/"><![CDATA[<p>This article is purposefully going to be a bit advanced and there is at least two reasons.</p>
-
-<p>For one, the basic intros are already available everywhere, and it is a path walked a million times. For the reader who is trying to get things done in Python that will be more than enough.</p>
-
-<p>For two, more advanced talks about OOP mostly go in the direction of describing encapsulation, abstraction, inheritance and polymorphism, and how to use them in numerous design patterns guided by some of the principles in software engineering (for example <em>SOLID</em>).</p>
-
-<p>Now, my idea is to briefly write about how Python enables OOP paradigm. In essence, what is behind these lines of code:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
-    <span class="k">pass</span>
-
-<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
-    <span class="k">pass</span>
-
-<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p>Back in the days when you learned about object-oriented programming, you most probably came across a general idea that describes what classes and objects are, and it goes like this:</p>
-
-<blockquote>
-  <blockquote>
-    <p>“Class is like a cookie mold. And objects are cookies molded by it”.</p>
-  </blockquote>
-</blockquote>
-
-<p>This is a very intuitive explanation and conveys the idea rather clearly. Having said that, our example defines two templates with little or no functionalities, but they work. You can play with defining the <code class="language-plaintext highlighter-rouge">__init__</code> method, set some object attributes, and make it more usable. However, what is interesting <strong>in Python</strong> is that <strong>even though a class is a “template” that is used to create objects from it, it is also an object itself.</strong> Everyone learning OOP in Python would quickly go over this statement, not really thinking in depth. Everything in Python is an object, so what? But once you start thinking about this, a lot of questions pop up, and interesting Python intricacies unravel.</p>
-
-<p>Before I start asking these questions for you, let’s remember that <strong>in Python, everything is an object</strong>. And I mean everything. This is probably something you already picked up, even if you are a newbie. The next example shows this:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
-    <span class="k">pass</span>
-<span class="nb">id</span><span class="p">(</span><span class="n">Person</span><span class="p">)</span> 
-<span class="c1"># some memory location
-</span>
-<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
-    <span class="k">pass</span>
-<span class="nb">id</span><span class="p">(</span><span class="n">Child</span><span class="p">)</span>
-<span class="c1"># some memory location
-</span>
-<span class="c1"># Class objects are created, you can instantiate objects
-</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
-<span class="nb">id</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-<span class="c1"># some memory location
-</span></code></pre></div></div>
-
-<p>Based on these examples, here are some questions that you should ask yourself:</p>
-
-<ul>
-  <li>If a class is an object, when is it created?</li>
-  <li>Who creates class objects?</li>
-  <li>If class is an object, how come I’m able to call it when instantiating an object?</li>
-</ul>
-
-<h2 id="class-object-creation">Class object creation</h2>
-
-<p>Python is widely known as an interpreted language. This means there is an interpreter (program or process) that goes line by line and tries to translate it to machine code. This is opposed to compiled programming languages like C, where programming code is translated into machine code before you run it. This is a very simplified view. To be more precise, Python is both compiled and interpreted, but this is a subject for another time. What is important for our example is that the interpreter goes through the class definition, and once the class code block is finished, the class object is created. From then on, you are able to instantiate objects from it. You have to do this explicitly of course, even though class objects are instantiated implicitly.</p>
-
-<p>But what “process” is triggered when the interpreter finishes reading the class code block? We could go directly to details, but one chart speaks a thousand words:</p>
-
-<p><img src="../assets/img/chart_metaclass.png" alt="" /></p>
-
-<p>If you are not aware, Python has <code class="language-plaintext highlighter-rouge">type</code> functions that can be used for our purpose(s) now. By calling <code class="language-plaintext highlighter-rouge">type</code> with object as an argument, you will get object’s type. How ingenious! Take a look:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
-    <span class="k">pass</span>
-
-<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
-    <span class="k">pass</span>
-
-<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
-
-<span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-<span class="c1"># Child
-</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">Child</span><span class="p">)</span>
-<span class="c1"># type
-</span></code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">type</code> call in the example makes sense. <code class="language-plaintext highlighter-rouge">c</code> is of type <code class="language-plaintext highlighter-rouge">Child</code>. We used a class (object) to create it. So in some way, you can think of <code class="language-plaintext highlighter-rouge">type(c)</code> giving you the name of its “creator”. And in a way, <code class="language-plaintext highlighter-rouge">Child</code> class is its creator because you called it to create a new instance. But what happens when you try to get the “creator” of the class object, <code class="language-plaintext highlighter-rouge">type(Child)</code>? You get <code class="language-plaintext highlighter-rouge">type</code>. To sum it up, <strong>object is an instance of a class, and a class is an instance of a type</strong>. By now you may be wondering how a class is an instance of a function, and the answer is: <code class="language-plaintext highlighter-rouge">type</code> is both a function and a class. This is intentionally left as it is because of backward compatibility back in the old days.</p>
-
-<p>What will make your head spin is the name we have for classes that are used to create class objects. It is <strong>metaclasses.</strong> And here it is important to make a distinction between inheritance from the perspective of the object-oriented paradigm and the mechanisms of a language that enable you to practice this paradigm. Metaclasses provide this mechanism. What can be even more confusing is that metaclasses are able to inherit parent classes just like regular ones can. But this can quickly become “inceptional” programming, so let’s not go that deep.</p>
-
-<p>Do we have to deal with these metaclasses on a daily basis? Well, no. In rare cases, you need to define and use them because, most of the time, default behavior is just fine.</p>
-
-<p>Let’s continue with our journey, this time with a new example:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
-
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Something like this should be your very first OOP step in Python. You are taught that <code class="language-plaintext highlighter-rouge">__init__</code> is a constructor, where you set the values of your object attributes, and you are good to go. However, this <code class="language-plaintext highlighter-rouge">__init__</code> dunder method is exactly what it says: the initialization step. Isn’t it strange that you call it to initialize an object, and yet you get an object instance in return? There is no <code class="language-plaintext highlighter-rouge">return</code> in this method. So, how is this possible? Who returns the instance of a class?</p>
-
-<p>Very few learn at the start of their Python journey that there is another method that is called implicitly and is named <code class="language-plaintext highlighter-rouge">__new__</code>. This method actually creates an instance before <code class="language-plaintext highlighter-rouge">__init__</code> is called to initialize it. Here is an example:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'new is called'</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'init is called'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
-
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-<span class="c1"># new is called
-# init is called
-</span></code></pre></div></div>
-
-<p>What you’ll immediately see is that <code class="language-plaintext highlighter-rouge">__new__</code> returns <code class="language-plaintext highlighter-rouge">super().__new__(cls)</code>. This is a new instance. <code class="language-plaintext highlighter-rouge">super()</code> fetches the parent class of <code class="language-plaintext highlighter-rouge">Parent</code> which is implicitly <code class="language-plaintext highlighter-rouge">object</code> class. This class is inherited by all classes in Python. And is an object in itself too. Another innovative move by the Python creators!</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">isinstance</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
-<span class="c1"># True
-</span></code></pre></div></div>
-
-<p>But what binds <code class="language-plaintext highlighter-rouge">__new__</code> and <code class="language-plaintext highlighter-rouge">__init__</code>? There has to be something more to how object instantiation is performed when we call <code class="language-plaintext highlighter-rouge">Parent('John' ,35)</code>. Take a look at it once again. You are invoking (calling) a class object, like a function.</p>
-
-<h2 id="python-callable">Python callable</h2>
-
-<p>Python, being a structurally typed language, enables you to define specific methods in your class that describe a Protocol (a way of using its object), and based on this, all instances of a class will behave in the expected way. Do not get intimidated if you are coming from other programming languages. Protocols are something like Interfaces in other languages. However, here we do not explicitly state that we are implementing a specific interface and, therefore, specific behavior. We just implement methods that are described by Protocol, and all objects are going to have that behavior. One of these Protocols is <em>Callable</em>. By implementing dunder method <code class="language-plaintext highlighter-rouge">__call__</code> you enable your object to be called like a function. See the example:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'new is called'</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'init is called'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
-
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'Parent here!'</span><span class="p">)</span>
-
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-<span class="n">p</span><span class="p">()</span>
-<span class="c1"># Parent here!
-</span></code></pre></div></div>
-
-<p>By implementing <code class="language-plaintext highlighter-rouge">__call__</code> in the class definition, your class instances become <em>callable</em>. But what about <code class="language-plaintext highlighter-rouge">Parent('John', 35)</code>. How do you achieve the same with your class object? If object’s type definition (class) specifies that it is callable, then the class object type (type i.e. metaclass) should specify that the class object is callable too, right? Invocation of the dunder methods <code class="language-plaintext highlighter-rouge">__new__</code> and <code class="language-plaintext highlighter-rouge">__init__</code> happens there.</p>
-
-<p>At this point, it is time to start playing with metaclasses.</p>
-
-<h2 id="python-metaclasses">Python metaclasses</h2>
-
-<p>There are at least two ways you can change the process of class object creation. One is by using class decorators; the other is by explicitly specifying metalcass. We will describe the metaclass approach. Keep in mind that a metaclass looks like a regular class, and the only exception is that it has to inherit <code class="language-plaintext highlighter-rouge">type</code> class. Why? Because <code class="language-plaintext highlighter-rouge">type</code> class has all the implementation that is required for our code to still work as expected. For example:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is called'</span>
-              <span class="sa">f</span><span class="s">' with args=</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s">, kwargs=</span><span class="si">{</span><span class="n">kwarg</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
-
-<span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MyMeta</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'new is called'</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'init is called'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
-
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-<span class="c1"># Parent is called with args=('John', 35), kwargs={}
-</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-<span class="c1"># NoneType
-</span></code></pre></div></div>
-
-<p>Here <code class="language-plaintext highlighter-rouge">MyMeta</code> is the drive force behind new class object instantiation and also specifies how new class instances are created. Take a closer look at the last two lines of the example. <code class="language-plaintext highlighter-rouge">p</code> holds nothing! But why? Because, as you can see, <code class="language-plaintext highlighter-rouge">MyMeta.__call__</code> just prints information and returns nothing. Explicitly, that is. Implicitly, that means that it returns <code class="language-plaintext highlighter-rouge">None</code>, which is of <code class="language-plaintext highlighter-rouge">NoneType</code>.</p>
-
-<p>How should we fix this?</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">cls</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is called'</span>
-              <span class="sa">f</span><span class="s">'with args=</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s">, kwargs=</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'metaclass calls __new__'</span><span class="p">)</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">cls</span><span class="p">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">'metaclass calls __init__'</span><span class="p">)</span>
-            <span class="n">cls</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">obj</span>
-
-<span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MyMeta</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'new is called'</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'init is called'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
-
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-<span class="c1"># Parent is called with args=('John', 35), kwargs={}
-# metaclass calls __new__
-# new is called
-# metaclass calls __init__
-# init is called
-</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-<span class="c1"># Parent
-</span>
-<span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-<span class="c1"># '&lt;__main__.Parent object at 0x103d540a0&gt;'
-</span></code></pre></div></div>
-
-<p>From the output, you can see what happens on <code class="language-plaintext highlighter-rouge">MyMeta.__call__</code>invocation. The provided implementation is just an example of how the whole thing works. You should be more careful if you plan to override parts of metaclasses yourself. There are some edge cases that you have to cover up. For example, one of the edge cases is that <code class="language-plaintext highlighter-rouge">Parent.__new__</code> can return an object that is not an instance of the <code class="language-plaintext highlighter-rouge">Parent</code> class. In that case, it is not going to be initialized by <code class="language-plaintext highlighter-rouge">Parent.__init__</code> method. That is the expected behavior you have to be aware of, and it really doesn’t make sense to initialize an object that is not an instance of the same class.</p>
-
-<p>Anyway, this would conclude the overview of what happens when you define a class and make an instance of it. Of course, you could go even further and see what happens during the class block interpretation. All of this happens in the metaclass too.</p>
-
-<p>Maybe I’ll write about it some time in the future. Until then, best of luck learning Python!</p>
-
-<h2 id="references">References</h2>
-
-<ul>
-  <li><a href="https://jfreeman.dev/blog/2020/12/07/python-metaclasses/">Python Metaclasses</a></li>
-  <li><a href="https://www.honeybadger.io/blog/python-instantiation-metaclass/">Understanding Object Instantiation and Metaclasses in Python</a></li>
-</ul>]]></content><author><name>Ilija Lazarevic</name></author><category term="python" /><category term="oop" /><category term="advanced" /><summary type="html"><![CDATA[Metaclasses in Python are advanced concepts, but let's see if we can unpack the complexity.]]></summary></entry><entry><title type="html">Managing Python Versions and Virtual Environments</title><link href="https://ilijalazarevic.com/post-python-virtual-environments/" rel="alternate" type="text/html" title="Managing Python Versions and Virtual Environments" /><published>2023-07-13T14:21:28+02:00</published><updated>2023-07-13T14:21:28+02:00</updated><id>https://ilijalazarevic.com/post-python-virtual-environments</id><content type="html" xml:base="https://ilijalazarevic.com/post-python-virtual-environments/"><![CDATA[<p>The idea for this blog post is about how Python can be used in different environments. These are so-called “virtual environments” in Python, and there have been many tools that provide this capability with more or less additional functionalities.</p>
+</ul>]]></content><author><name>Ilija Lazarevic</name></author><category term="python" /><category term="oop" /><category term="advanced" /><summary type="html"><![CDATA[Python functions advanced concepts]]></summary></entry><entry><title type="html">Managing Python Versions and Virtual Environments</title><link href="https://ilijalazarevic.com/post-python-virtual-environments/" rel="alternate" type="text/html" title="Managing Python Versions and Virtual Environments" /><published>2023-07-13T14:21:28+02:00</published><updated>2023-07-13T14:21:28+02:00</updated><id>https://ilijalazarevic.com/post-python-virtual-environments</id><content type="html" xml:base="https://ilijalazarevic.com/post-python-virtual-environments/"><![CDATA[<p>The idea for this blog post is about how Python can be used in different environments. These are so-called “virtual environments” in Python, and there have been many tools that provide this capability with more or less additional functionalities.</p>
 
 <p>Some of you may remember <code class="language-plaintext highlighter-rouge">venv</code> and the <code class="language-plaintext highlighter-rouge">virtualenv</code> as one of the first tools that enabled developers to create specific virtual environments and not pollute the system. However, a lot was left to be desired. So then there were <code class="language-plaintext highlighter-rouge">virtualenvwrapper</code> and <code class="language-plaintext highlighter-rouge">pipenv</code>. These tried to address the lack of usability in some use cases. However, the main points that all of these tools want to address are:</p>
 
