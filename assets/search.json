@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Advanced Python: Functions",
+      "description" : "Python functions advanced concepts",
+      "tags"     : "python, oop, advanced",
+      "url"      : "/post-advanced-python-functions/",
+      "date"     : "2023-09-06 07:14:21 +0200"
+    } ,
+  
+    {
       "title"    : "Managing Python Versions and Virtual Environments",
       "description" : "The best complementary tools for managing virtual environments in Python development process",
       "tags"     : "python, software, development",

@@ -1,4 +1,352 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-09-06T10:19:29+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Managing Python Versions and Virtual Environments</title><link href="https://ilijalazarevic.com/post-python-virtual-environments/" rel="alternate" type="text/html" title="Managing Python Versions and Virtual Environments" /><published>2023-07-13T14:21:28+02:00</published><updated>2023-07-13T14:21:28+02:00</updated><id>https://ilijalazarevic.com/post-python-virtual-environments</id><content type="html" xml:base="https://ilijalazarevic.com/post-python-virtual-environments/"><![CDATA[<p>The idea for this blog post is about how Python can be used in different environments. These are so-called “virtual environments” in Python, and there have been many tools that provide this capability with more or less additional functionalities.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-09-06T16:39:57+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Functions</title><link href="https://ilijalazarevic.com/post-advanced-python-functions/" rel="alternate" type="text/html" title="Advanced Python: Functions" /><published>2023-09-06T07:14:21+02:00</published><updated>2023-09-06T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-functions</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-functions/"><![CDATA[<p>After reading the title, you probably ask yourself something along the lines of, “Functions in Python are an advanced concept? How? All courses introduce functions as the basic block in language.” And you are right and wrong at the same time.</p>
+
+<p>Most courses on Python introduce functions as a basic concept and building block because, without them, you would not be able to write functional code at all. This is totally different from the functional programming paradigm, which is a separate concept, but I shall touch upon this one too.</p>
+
+<p>Before we delve into the advanced intricacies of Python functions, let’s briefly go over some basic concepts and things you probably already know.</p>
+
+<h1 id="brief-basics">Brief basics</h1>
+
+<p>So you start writing your program, and at some point you end up writing the same sequence of code. You start repeating yourself and the code blocks. This proves to be a good time and place to introduce functions. At least, that is. In Python, you define a function as:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+	<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.'</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<p>In the world of software engineering, we make a distinction between parts of function definition:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">def</code> - Python keyword used to define a function.</li>
+  <li><code class="language-plaintext highlighter-rouge">shout</code> - function name.</li>
+  <li><code class="language-plaintext highlighter-rouge">shout(name)</code>- function declaration.</li>
+  <li><code class="language-plaintext highlighter-rouge">name</code> - function argument.</li>
+  <li><code class="language-plaintext highlighter-rouge">print(...)</code>is a part of a function body or how we call it function definition.</li>
+</ul>
+
+<p>A function can return a value or have no return value at all, like the one we previously defined. When function returns value it can return one or more of them:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">break_sentence</span><span class="p">(</span><span class="n">sentence</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">sentence</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>What you get as a result is a tuple that you can unpack or pick any of the tuple elements to proceed with.</p>
+
+<p>For those of you who are not informed, functions in Python are <strong>first-class citizens</strong>. What does this mean? It means you can work with functions as you would with any other variable. You can pass them as arguments to other functions, return them from functions, and even store them in variables. Here is one of the examples:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+	<span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.'</span>
+
+<span class="c1"># we will use break_sentence defined above
+</span>
+<span class="c1"># assign function to another variable
+</span><span class="n">another_breaker</span> <span class="o">=</span> <span class="n">break_sentence</span> 
+
+<span class="n">another_breaker</span><span class="p">(</span><span class="n">shout</span><span class="p">(</span><span class="s">'John'</span><span class="p">))</span>
+<span class="c1"># ['Hey!', 'My', 'name', 'is', 'John.']
+</span>
+<span class="c1"># Woah! Yes, this is a valid way to define function
+</span><span class="n">name_decorator</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">'-'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+<span class="n">name_decorator</span><span class="p">(</span><span class="s">'John'</span><span class="p">)</span>
+<span class="c1"># 'J-o-h-n'
+</span></code></pre></div></div>
+
+<p>Wait, what was this <code class="language-plaintext highlighter-rouge">lambda</code> ? This is another way you can define functions in Python. This is the so-called unnamed or anonymous function. Well, in this example, we are assigning it to a variable named <code class="language-plaintext highlighter-rouge">name_decorator</code> but you can pass the <code class="language-plaintext highlighter-rouge">lambda</code> expression as an argument of another function without the need to name it. I will cover this shortly.</p>
+
+<p>What is left is to give an example of how functions can be passed as arguments or returned as values from another function. This is the part where we are moving toward advanced concepts, so bear with me.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">dash_decorator</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+	<span class="k">return</span> <span class="s">'-'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">no_decorator</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">name</span>
+
+<span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">decorator</span><span class="o">=</span><span class="n">no_decorator</span><span class="p">):</span>
+	<span class="n">decorated_name</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+	<span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">decorated_name</span><span class="si">}</span><span class="s">'</span>
+
+<span class="n">shout</span><span class="p">(</span><span class="s">'John'</span><span class="p">)</span>
+<span class="c1"># 'Hey! My name is John'
+</span>
+<span class="n">shout</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="n">decorator</span><span class="o">=</span><span class="n">dash_decorator</span><span class="p">)</span>
+<span class="c1"># 'Hey! My name is J-o-h-n'
+</span></code></pre></div></div>
+
+<p>So this is how it looks to pass functions as arguments to another function. What about the <code class="language-plaintext highlighter-rouge">lambda</code> function? Well, take a look at the next example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">decorator</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">):</span>
+	<span class="n">decorated_name</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+	<span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">decorated_name</span><span class="si">}</span><span class="s">'</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">shout</span><span class="p">(</span><span class="s">'John'</span><span class="p">))</span>
+<span class="c1"># Hey! My name is John
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">shout</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="n">decorator</span><span class="o">=</span><span class="n">dash_decorator</span><span class="p">))</span>
+<span class="c1"># Hey! My name is J-o-h-n
+</span></code></pre></div></div>
+
+<p>Now the default decorating function is <code class="language-plaintext highlighter-rouge">lambda</code> and returns the argument’s value as it is (idempotent). Here, it is anonymous because there is no name attached to it.</p>
+
+<p>Notice that <code class="language-plaintext highlighter-rouge">print</code> is also a function, and we are passing a function <code class="language-plaintext highlighter-rouge">shout</code> inside of it as an argument. In essence, we are chaining functions. And this can lead us to a functional programming paradigm, which is a path that you can choose in Python. I will try to write another blog post specifically on this subject because it is very interesting to me. For now, we will keep to the procedural programming paradigm; that is, we will continue with what we have been doing so far.</p>
+
+<p>As stated previously, a function can be assigned to a variable, passed as an argument to another function, and returned from that function. I have shown you some simple examples for the first two cases, but what about returning a function from a function? At first I wanted to keep it really simple, but then again, this is an Advanced Python blog post series!</p>
+
+<h1 id="intermediate-or-advanced-parts">Intermediate or advanced parts</h1>
+
+<p>This will by no means be THE guide to functions and advanced concepts around functions in Python. There are a lot of great materials, which I will leave at the end of this post. However, I want to talk about a couple of interesting aspects that I have found to be very intriguing.</p>
+
+<p>Functions in Python are <strong>objects</strong>. How can we figure this out? Well, each object in Python is an instance of a class that eventually inherits from one specific class called <code class="language-plaintext highlighter-rouge">type</code>. The details of this are convoluted, but to be able to see what this has to do with functions, here is an example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">type</span><span class="p">(</span><span class="n">shout</span><span class="p">)</span>
+<span class="c1"># function
+</span>
+<span class="nb">type</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">shout</span><span class="p">))</span>
+<span class="c1"># type
+</span></code></pre></div></div>
+
+<p>When you define a class in Python, it automatically inherits the <code class="language-plaintext highlighter-rouge">object</code> class. And which class does <code class="language-plaintext highlighter-rouge">object</code> inherit?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">type</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+<span class="c1"># type
+</span></code></pre></div></div>
+
+<p>And should I tell you that classes in Python are objects too? Indeed, this is mind-boggling for beginners. But as Andrew Ng would say, this is not that important; don’t worry about it.</p>
+
+<p>Okay, so functions are objects. Certainly functions should have some magic methods, then, right?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">shout</span><span class="p">.</span><span class="n">__class__</span>
+<span class="c1"># function
+</span>
+<span class="n">shout</span><span class="p">.</span><span class="n">__name__</span>
+<span class="c1"># shout
+</span>
+<span class="n">shout</span><span class="p">.</span><span class="n">__call__</span>
+<span class="c1"># &lt;method-wrapper '__call__' of function object at 0x10d8b69e0&gt;
+# Oh snap!
+</span></code></pre></div></div>
+
+<p>The magic method <code class="language-plaintext highlighter-rouge">__call__</code> is defined for objects that are callable. So our <code class="language-plaintext highlighter-rouge">shout</code> object (function) is callable. We can <em>call</em> it with or without arguments. But this is interesting. What we did previously was define a <code class="language-plaintext highlighter-rouge">shout</code> function and get an object that is callable with the <code class="language-plaintext highlighter-rouge">__call__</code> magic method that is a function. Have you ever watched the Inception movie?</p>
+
+<p>So, our <em>function</em> is not really a function but an object. Objects are instances of classes and contain methods and attributes, right? This is something you should know from OOP. How can we find out what the attributes of our object are? There is this Python function called <code class="language-plaintext highlighter-rouge">vars</code> that returns a dictionary of object attributes with their values. Let’s see what happens in the next example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">vars</span><span class="p">(</span><span class="n">shout</span><span class="p">)</span>
+<span class="c1"># {}
+</span>
+<span class="n">shout</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">'Jimmy'</span>
+
+<span class="nb">vars</span><span class="p">(</span><span class="n">shout</span><span class="p">)</span>
+<span class="c1"># {'name': 'Jimmy'} 
+</span></code></pre></div></div>
+
+<p>This is interesting. Not that you could figure out the use case for this straight away. And even if you could find it, I would highly discourage you from doing this black magic. It’s just not easy to follow, even though it is an interesting flex. The reason I have shown you this is because we wanted proof that functions are indeed objects. Remember, everything in Python is an object. That is how we roll in Python.</p>
+
+<p>Now, long-awaited functions are returning. This concept is also very interesting since it gives you a lot of utility. With a little bit of syntactic sugar, you get very expressive. Let’s dive in.</p>
+
+<p>First, a function’s definition can contain another function’s definition. Even more than one. Here is a perfectly fine example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+
+	<span class="k">def</span> <span class="nf">_upper_case</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">s</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span>
+
+	<span class="k">return</span> <span class="n">_upper_case</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If you are thinking that this is just a convoluted version of <code class="language-plaintext highlighter-rouge">name.upper()</code> you are right. But wait, we are getting there.</p>
+
+<p>So, given the previous example, which is fully functional Python code, you can experiment with multiple functions defined inside your function. What is the value of this neat trick? Well, you could be in a situation where your function is huge with repeating blocks of code. This way, defining a <em>subfunction</em> would increase readability. In practice, huge functions are a sign of code smell, and it is highly encouraged to break them into a few smaller ones. So, following this advice, you will rarely have the need to define multiple functions inside each other. One thing to notice is that the <code class="language-plaintext highlighter-rouge">_upper_case</code> function is hidden and out of reach in the scope where the <code class="language-plaintext highlighter-rouge">shout</code> function ends up being defined and available to call. This way, you can’t test it easily, which is yet another issue with this approach.</p>
+
+<p>However, there is one specific case where defining a function inside another is a way to go. This is when you implement the decorator of a function. This has nothing to do with the function we used to decorate the <code class="language-plaintext highlighter-rouge">name</code> string in one of previous examples.</p>
+
+<h1 id="decorators-in-python">Decorators in Python</h1>
+
+<p>What is a <em>decorator function</em>? Think of it as a function that wraps your function. The goal of doing this is to introduce additional functionality to an already existing function. For example, say you want to log every time your function is called:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_function</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">my_logger</span><span class="p">(</span><span class="n">fun</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">fun</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is being called!'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fun</span>
+
+<span class="n">my_function</span><span class="p">()</span>
+<span class="c1"># 45
+</span>
+<span class="n">my_logger</span><span class="p">(</span><span class="n">my_function</span><span class="p">)</span>
+<span class="c1"># my_function is being called!
+# &lt;function my_function at 0x105afbeb0&gt;
+</span>
+<span class="n">my_logger</span><span class="p">(</span><span class="n">my_function</span><span class="p">)()</span>
+<span class="c1"># my_function is being called!
+# 45
+</span>
+</code></pre></div></div>
+
+<p>Pay attention to how we decorate our function; we pass it as an argument to the decorating one. But this is not enough! Remember, decorator returns function, and this function needs to be invoked (called). This is what the last call does.</p>
+
+<p>Now, in practice, what you really want is for decoration to persist under the original function’s name. In our case, we would like that after the interpreter parses our code,  <code class="language-plaintext highlighter-rouge">my_function</code> is the name of the decorated function. This way, we keep things simple to follow, and we are making sure that any part of our code won’t be able to call an undecorated version of our function. Example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_function</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">my_logger</span><span class="p">(</span><span class="n">fun</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">fun</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is being called!'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fun</span>
+
+<span class="n">my_function</span> <span class="o">=</span> <span class="n">my_logger</span><span class="p">(</span><span class="n">my_function</span><span class="p">)</span>
+
+<span class="n">my_function</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># my_function is being called!
+# 45
+</span></code></pre></div></div>
+
+<p>You will admit that the part where we reassign the function’s name to a decorated one is troublesome. You have to keep this in mind. If there are many function calls you want to log, there will be a lot of repeating code. Here is where the syntactic sugar comes in. After the decorator function is defined, you can use it to decorate the another function by prefixing the function definition with an <code class="language-plaintext highlighter-rouge">@</code> and the name of the decorator function. Example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_logger</span><span class="p">(</span><span class="n">fun</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">fun</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is being called!'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fun</span>
+
+<span class="o">@</span><span class="n">my_logger</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="n">my_function</span><span class="p">()</span>
+<span class="c1"># my_function is being called!
+# 45
+</span></code></pre></div></div>
+
+<p>This is Python’s Zen. Look at the expressiveness of the code and its simplicity.</p>
+
+<p>One important thing to note here! Even though the output makes sense, it is not what you would expect! At the time of loading your Python code, the interpreter will call the <code class="language-plaintext highlighter-rouge">my_logger</code> function and effectively run it! You will get the log output, yet this will not be what we wanted in the first place. Look at the code now:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_logger</span><span class="p">(</span><span class="n">fun</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">fun</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is being called!'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fun</span>
+
+<span class="o">@</span><span class="n">my_logger</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="n">my_function</span><span class="p">()</span>
+<span class="c1"># my_function is being called!
+# 45
+</span><span class="n">my_function</span><span class="p">()</span>
+<span class="c1"># 45
+</span></code></pre></div></div>
+
+<p>To be able to run decorator code once the original function is called, we have to wrap it around another function. This is where things can get messy. Here is an example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_logger</span><span class="p">(</span><span class="n">fun</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_inner_decorator</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">fun</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is being called!'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_inner_fun</span>
+
+<span class="o">@</span><span class="n">my_logger</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">my_function</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="c1"># my_function is being called!
+# 10
+</span></code></pre></div></div>
+
+<p>In this example, there are some updates as well, so let’s go over them:</p>
+<ol>
+  <li>We want to be able to pass the argument to <code class="language-plaintext highlighter-rouge">my_function</code>.</li>
+  <li>We want to be able to decorate any function, not just <code class="language-plaintext highlighter-rouge">my_function</code>. Because we don’t know the exact number of arguments for future functions, we have to keep things as general as we can, which is why we use <code class="language-plaintext highlighter-rouge">*args</code> and <code class="language-plaintext highlighter-rouge">**kwargs</code>.</li>
+  <li>Most importantly, we defined <code class="language-plaintext highlighter-rouge">_inner_decorator</code> that is going to be called each time we call <code class="language-plaintext highlighter-rouge">my_function</code> in the code. It accepts positional and keyword arguments and passes them as arguments to the decorated function.</li>
+</ol>
+
+<p>Always keep in mind that the decorator function has to return a function that accepts the same arguments (number and their respective types) and returns the same output (again, number and their respective types). That is, if you want to make the function user not confused and the code reader not trying to figure out what the hell is happening.</p>
+
+<p>For example, say you have two functions that are different in results but also require arguments:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">my_logger</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="o">@</span><span class="n">my_logger</span>
+<span class="k">def</span> <span class="nf">my_unordinary_function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">+</span> <span class="n">m</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">my_function</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="c1"># my_function is being called!
+# 10
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">my_unordinary_function</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1"># my_unordinary_function is being called!
+# 11
+</span>
+</code></pre></div></div>
+
+<p>In our example, the decorator function accepts just the function it decorates. But what if you wanted to pass additional parameters and dynamically change decorator behavior? Say you want to tune the logger decorator’s verbosity. So far, our decorator function has accepted one argument: the function it decorates. However, when the decorator function has its own arguments, these are passed to it first. Then, the decorator function has to return a function that accepts the decorated one. Essentially, things are getting more convoluted. Remember the movie Inception reference?</p>
+
+<p>Here is an example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="k">class</span> <span class="nc">LogVerbosity</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">ZERO</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">LOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">MEDIUM</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">HIGH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">my_logger</span><span class="p">(</span><span class="n">verbosity</span><span class="p">:</span> <span class="n">LogVerbosity</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_inner_logger</span><span class="p">(</span><span class="n">fun</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">_inner_decorator</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">verbosity</span> <span class="o">&gt;=</span> <span class="n">LogVerbosity</span><span class="p">.</span><span class="n">LOW</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'LOG: Verbosity level: </span><span class="si">{</span><span class="n">verbosity</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'LOG: </span><span class="si">{</span><span class="n">fun</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s"> is being called!'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbosity</span> <span class="o">&gt;=</span> <span class="n">LogVerbosity</span><span class="p">.</span><span class="n">MEDIUM</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'LOG: Date and time of call is </span><span class="si">{</span><span class="n">datetime</span><span class="p">.</span><span class="n">utcnow</span><span class="p">()</span><span class="si">}</span><span class="s">.'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbosity</span> <span class="o">==</span> <span class="n">LogVerbosity</span><span class="p">.</span><span class="n">HIGH</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'LOG: Scope of the caller is </span><span class="si">{</span><span class="n">__name__</span><span class="si">}</span><span class="s">.'</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'LOG: Arguments are </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s">, </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">_inner_decorator</span>
+
+    <span class="k">return</span> <span class="n">_inner_logger</span>
+
+<span class="o">@</span><span class="n">my_logger</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="n">LogVerbosity</span><span class="p">.</span><span class="n">LOW</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="o">@</span><span class="n">my_logger</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="n">LogVerbosity</span><span class="p">.</span><span class="n">HIGH</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_unordinary_function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">+</span> <span class="n">m</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">my_function</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="c1"># LOG: Verbosity level: LOW
+# LOG: my_function is being called!
+# 45
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">my_unordinary_function</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1"># LOG: Verbosity level: HIGH
+# LOG: my_unordinary_function is being called!
+# LOG: Date and time of call is 2023-07-25 19:09:15.954603.
+# LOG: Scope of the caller is __main__.
+# LOG: Arguments are (5, 1), {}
+# 11 
+</span></code></pre></div></div>
+
+<p>I won’t go into describing code unrelated to decorator, but I encourage you to look it up and learn. Here we have a decorator that logs function calls with different verbosity. As already described, <code class="language-plaintext highlighter-rouge">my_logger</code> decorator now accepts arguments that dynamically change its behavior. After arguments are passed to it, the resulting function that it returns should accept a function to decorate. This is the <code class="language-plaintext highlighter-rouge">_inner_logger</code> function. By now, you should understand what the rest of the decorator code is doing.</p>
+
+<p>My first idea for this post was to talk about advanced topics for decorators. However, as you probably know by now, I have mentioned and used a lot of advanced topics as well. In future blog posts, I’ll tackle some of these to a certain extent. Nevertheless, my advice for you is to go and learn about the things mentioned here from other sources as well. I hope I have introduced something new for you and that you are now confident about writing functions as an advanced Python programmer.</p>
+
+<h1 id="references">References</h1>
+
+<ul>
+  <li><a href="https://realpython.com/primer-on-python-decorators/">Primer on Python decorators</a></li>
+  <li><a href="https://realpython.com/inner-functions-what-are-they-good-for/">Python Inner Functions: What Are They Good For?</a></li>
+  <li><a href="https://docs.python.org/3/howto/enum.html">Enum HOWTO</a></li>
+</ul>]]></content><author><name>Ilija Lazarevic</name></author><category term="python" /><category term="oop" /><category term="advanced" /><summary type="html"><![CDATA[Python functions advanced concepts]]></summary></entry><entry><title type="html">Managing Python Versions and Virtual Environments</title><link href="https://ilijalazarevic.com/post-python-virtual-environments/" rel="alternate" type="text/html" title="Managing Python Versions and Virtual Environments" /><published>2023-07-13T14:21:28+02:00</published><updated>2023-07-13T14:21:28+02:00</updated><id>https://ilijalazarevic.com/post-python-virtual-environments</id><content type="html" xml:base="https://ilijalazarevic.com/post-python-virtual-environments/"><![CDATA[<p>The idea for this blog post is about how Python can be used in different environments. These are so-called “virtual environments” in Python, and there have been many tools that provide this capability with more or less additional functionalities.</p>
 
 <p>Some of you may remember <code class="language-plaintext highlighter-rouge">venv</code> and the <code class="language-plaintext highlighter-rouge">virtualenv</code> as one of the first tools that enabled developers to create specific virtual environments and not pollute the system. However, a lot was left to be desired. So then there were <code class="language-plaintext highlighter-rouge">virtualenvwrapper</code> and <code class="language-plaintext highlighter-rouge">pipenv</code>. These tried to address the lack of usability in some use cases. However, the main points that all of these tools want to address are:</p>
 
