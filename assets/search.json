@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Advanced Python: Metaclasses",
+      "description" : "Metaclasses in Python are advanced concepts, but let&#39;s see if we can unpack the complexity.",
+      "tags"     : "python, oop, advanced",
+      "url"      : "/post-advanced-python-metaclasses-copy/",
+      "date"     : "2023-09-06 07:14:21 +0200"
+    } ,
+  
+    {
       "title"    : "Advanced Python: Functions",
       "description" : "Python functions advanced concepts",
       "tags"     : "python, oop, advanced",
