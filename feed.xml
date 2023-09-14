@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-09-06T18:33:14+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Metaclasses</title><link href="https://ilijalazarevic.com/post-advanced-python-metaclasses-copy/" rel="alternate" type="text/html" title="Advanced Python: Metaclasses" /><published>2023-09-06T07:14:21+02:00</published><updated>2023-09-06T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-metaclasses%20copy</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-metaclasses-copy/"><![CDATA[<p>This article is purposefully going to be a bit advanced and there is at least two reasons.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-09-14T09:59:54+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Metaclasses</title><link href="https://ilijalazarevic.com/post-advanced-python-metaclasses-copy/" rel="alternate" type="text/html" title="Advanced Python: Metaclasses" /><published>2023-09-06T07:14:21+02:00</published><updated>2023-09-06T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-metaclasses%20copy</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-metaclasses-copy/"><![CDATA[<p>This article is purposefully going to be a bit advanced and there is at least two reasons.</p>
 
 <p>For one, the basic intros are already available everywhere, and it is a path walked a million times. For the reader who is trying to get things done in Python that will be more than enough.</p>
 
@@ -240,7 +240,7 @@
 <p>So you start writing your program, and at some point you end up writing the same sequence of code. You start repeating yourself and the code blocks. This proves to be a good time and place to introduce functions. At least, that is. In Python, you define a function as:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-	<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.'</span><span class="p">)</span> 
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.'</span><span class="p">)</span> 
 </code></pre></div></div>
 
 <p>In the world of software engineering, we make a distinction between parts of function definition:</p>
@@ -256,7 +256,7 @@
 <p>A function can return a value or have no return value at all, like the one we previously defined. When function returns value it can return one or more of them:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">break_sentence</span><span class="p">(</span><span class="n">sentence</span><span class="p">):</span>
-	<span class="k">return</span> <span class="n">sentence</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sentence</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>What you get as a result is a tuple that you can unpack or pick any of the tuple elements to proceed with.</p>
@@ -264,7 +264,7 @@
 <p>For those of you who are not informed, functions in Python are <strong>first-class citizens</strong>. What does this mean? It means you can work with functions as you would with any other variable. You can pass them as arguments to other functions, return them from functions, and even store them in variables. Here is one of the examples:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-	<span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.'</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">.'</span>
 
 <span class="c1"># we will use break_sentence defined above
 </span>
@@ -286,14 +286,14 @@
 <p>What is left is to give an example of how functions can be passed as arguments or returned as values from another function. This is the part where we are moving toward advanced concepts, so bear with me.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">dash_decorator</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-	<span class="k">return</span> <span class="s">'-'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s">'-'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">no_decorator</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-	<span class="k">return</span> <span class="n">name</span>
+    <span class="k">return</span> <span class="n">name</span>
 
 <span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">decorator</span><span class="o">=</span><span class="n">no_decorator</span><span class="p">):</span>
-	<span class="n">decorated_name</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-	<span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">decorated_name</span><span class="si">}</span><span class="s">'</span>
+    <span class="n">decorated_name</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">decorated_name</span><span class="si">}</span><span class="s">'</span>
 
 <span class="n">shout</span><span class="p">(</span><span class="s">'John'</span><span class="p">)</span>
 <span class="c1"># 'Hey! My name is John'
@@ -305,8 +305,8 @@
 <p>So this is how it looks to pass functions as arguments to another function. What about the <code class="language-plaintext highlighter-rouge">lambda</code> function? Well, take a look at the next example:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">decorator</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">):</span>
-	<span class="n">decorated_name</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-	<span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">decorated_name</span><span class="si">}</span><span class="s">'</span>
+    <span class="n">decorated_name</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s">'Hey! My name is </span><span class="si">{</span><span class="n">decorated_name</span><span class="si">}</span><span class="s">'</span>
 
 <span class="k">print</span><span class="p">(</span><span class="n">shout</span><span class="p">(</span><span class="s">'John'</span><span class="p">))</span>
 <span class="c1"># Hey! My name is John
@@ -375,11 +375,10 @@
 <p>First, a function’s definition can contain another function’s definition. Even more than one. Here is a perfectly fine example:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_upper_case</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">s</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span>
 
-	<span class="k">def</span> <span class="nf">_upper_case</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-		<span class="k">return</span> <span class="n">s</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span>
-
-	<span class="k">return</span> <span class="n">_upper_case</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_upper_case</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>If you are thinking that this is just a convoluted version of <code class="language-plaintext highlighter-rouge">name.upper()</code> you are right. But wait, we are getting there.</p>
