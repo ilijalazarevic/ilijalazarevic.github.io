@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-09-14T10:02:34+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Metaclasses</title><link href="https://ilijalazarevic.com/post-advanced-python-metaclasses/" rel="alternate" type="text/html" title="Advanced Python: Metaclasses" /><published>2023-09-06T07:14:21+02:00</published><updated>2023-09-06T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-metaclasses</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-metaclasses/"><![CDATA[<p>This article is purposefully going to be a bit advanced and there is at least two reasons.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-09-14T10:42:01+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Metaclasses</title><link href="https://ilijalazarevic.com/post-advanced-python-metaclasses/" rel="alternate" type="text/html" title="Advanced Python: Metaclasses" /><published>2023-09-06T07:14:21+02:00</published><updated>2023-09-06T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-metaclasses</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-metaclasses/"><![CDATA[<p>This article is purposefully going to be a bit advanced and there is at least two reasons.</p>
 
 <p>For one, the basic intros are already available everywhere, and it is a path walked a million times. For the reader who is trying to get things done in Python that will be more than enough.</p>
 
@@ -12,7 +12,7 @@
 <span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
+<span class="n">child</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p>Back in the days when you learned about object-oriented programming, you most probably came across a general idea that describes what classes and objects are, and it goes like this:</p>
@@ -39,8 +39,8 @@
 </span>
 <span class="c1"># Class objects are created, you can instantiate objects
 </span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
-<span class="nb">id</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">child</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
 <span class="c1"># some memory location
 </span></code></pre></div></div>
 
@@ -68,16 +68,16 @@
 <span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
     <span class="k">pass</span>
 
-<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
+<span class="n">child</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>
 
-<span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
 <span class="c1"># Child
 </span>
 <span class="nb">type</span><span class="p">(</span><span class="n">Child</span><span class="p">)</span>
 <span class="c1"># type
 </span></code></pre></div></div>
 
-<p>The <code class="language-plaintext highlighter-rouge">type</code> call in the example makes sense. <code class="language-plaintext highlighter-rouge">c</code> is of type <code class="language-plaintext highlighter-rouge">Child</code>. We used a class (object) to create it. So in some way, you can think of <code class="language-plaintext highlighter-rouge">type(c)</code> giving you the name of its “creator”. And in a way, <code class="language-plaintext highlighter-rouge">Child</code> class is its creator because you called it to create a new instance. But what happens when you try to get the “creator” of the class object, <code class="language-plaintext highlighter-rouge">type(Child)</code>? You get <code class="language-plaintext highlighter-rouge">type</code>. To sum it up, <strong>object is an instance of a class, and a class is an instance of a type</strong>. By now you may be wondering how a class is an instance of a function, and the answer is: <code class="language-plaintext highlighter-rouge">type</code> is both a function and a class. This is intentionally left as it is because of backward compatibility back in the old days.</p>
+<p>The <code class="language-plaintext highlighter-rouge">type</code> call in the example makes sense. <code class="language-plaintext highlighter-rouge">child</code> is of type <code class="language-plaintext highlighter-rouge">Child</code>. We used a class (object) to create it. So in some way, you can think of <code class="language-plaintext highlighter-rouge">type(child)</code> giving you the name of its “creator”. And in a way, <code class="language-plaintext highlighter-rouge">Child</code> class is its creator because you called it to create a new instance. But what happens when you try to get the “creator” of the class object, <code class="language-plaintext highlighter-rouge">type(Child)</code>? You get <code class="language-plaintext highlighter-rouge">type</code>. To sum it up, <strong>object is an instance of a class, and a class is an instance of a type</strong>. By now you may be wondering how a class is an instance of a function, and the answer is: <code class="language-plaintext highlighter-rouge">type</code> is both a function and a class. This is intentionally left as it is because of backward compatibility back in the old days.</p>
 
 <p>What will make your head spin is the name we have for classes that are used to create class objects. It is <strong>metaclasses.</strong> And here it is important to make a distinction between inheritance from the perspective of the object-oriented paradigm and the mechanisms of a language that enable you to practice this paradigm. Metaclasses provide this mechanism. What can be even more confusing is that metaclasses are able to inherit parent classes just like regular ones can. But this can quickly become “inceptional” programming, so let’s not go that deep.</p>
 
@@ -90,7 +90,7 @@
         <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="n">parent</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Something like this should be your very first OOP step in Python. You are taught that <code class="language-plaintext highlighter-rouge">__init__</code> is a constructor, where you set the values of your object attributes, and you are good to go. However, this <code class="language-plaintext highlighter-rouge">__init__</code> dunder method is exactly what it says: the initialization step. Isn’t it strange that you call it to initialize an object, and yet you get an object instance in return? There is no <code class="language-plaintext highlighter-rouge">return</code> in this method. So, how is this possible? Who returns the instance of a class?</p>
@@ -107,7 +107,7 @@
         <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="n">parent</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
 <span class="c1"># new is called
 # init is called
 </span></code></pre></div></div>
@@ -137,8 +137,8 @@
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">print</span><span class="p">(</span><span class="s">'Parent here!'</span><span class="p">)</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-<span class="n">p</span><span class="p">()</span>
+<span class="n">parent</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="n">parent</span><span class="p">()</span>
 <span class="c1"># Parent here!
 </span></code></pre></div></div>
 
@@ -165,13 +165,13 @@
         <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="n">parent</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
 <span class="c1"># Parent is called with args=('John', 35), kwargs={}
-</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class="nb">type</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
 <span class="c1"># NoneType
 </span></code></pre></div></div>
 
-<p>Here <code class="language-plaintext highlighter-rouge">MyMeta</code> is the drive force behind new class object instantiation and also specifies how new class instances are created. Take a closer look at the last two lines of the example. <code class="language-plaintext highlighter-rouge">p</code> holds nothing! But why? Because, as you can see, <code class="language-plaintext highlighter-rouge">MyMeta.__call__</code> just prints information and returns nothing. Explicitly, that is. Implicitly, that means that it returns <code class="language-plaintext highlighter-rouge">None</code>, which is of <code class="language-plaintext highlighter-rouge">NoneType</code>.</p>
+<p>Here <code class="language-plaintext highlighter-rouge">MyMeta</code> is the drive force behind new class object instantiation and also specifies how new class instances are created. Take a closer look at the last two lines of the example. <code class="language-plaintext highlighter-rouge">parent</code> holds nothing! But why? Because, as you can see, <code class="language-plaintext highlighter-rouge">MyMeta.__call__</code> just prints information and returns nothing. Explicitly, that is. Implicitly, that means that it returns <code class="language-plaintext highlighter-rouge">None</code>, which is of <code class="language-plaintext highlighter-rouge">NoneType</code>.</p>
 
 <p>How should we fix this?</p>
 
@@ -200,17 +200,17 @@
         <span class="bp">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="n">parent</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">(</span><span class="s">'John'</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
 <span class="c1"># Parent is called with args=('John', 35), kwargs={}
 # metaclass calls __new__
 # new is called
 # metaclass calls __init__
 # init is called
 </span>
-<span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
 <span class="c1"># Parent
 </span>
-<span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="nb">str</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
 <span class="c1"># '&lt;__main__.Parent object at 0x103d540a0&gt;'
 </span></code></pre></div></div>
 
