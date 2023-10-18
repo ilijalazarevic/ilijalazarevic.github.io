@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-10-04T09:33:46+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Dot operator</title><link href="https://ilijalazarevic.com/post-advanced-python-dot-operator/" rel="alternate" type="text/html" title="Advanced Python: Dot operator" /><published>2023-10-01T07:14:21+02:00</published><updated>2023-10-01T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-dot-operator</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-dot-operator/"><![CDATA[<p>Once again, I will write about something seemingly trivial. It is the “dot operator”. Most of you have already used this operator many times, without knowing or questioning what happens behind the scenes. And in comparison to the concept of metaclasses that I talked about last time, this one is a bit more usable for daily tasks. Just kidding, you are practically using it each time you use Python for something more than a “hello world”.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://ilijalazarevic.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ilijalazarevic.com/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2023-10-18T23:52:20+02:00</updated><id>https://ilijalazarevic.com/feed.xml</id><title type="html">Ilija Lazarevic</title><subtitle>My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts.</subtitle><author><name>Ilija Lazarevic</name></author><entry><title type="html">Advanced Python: Dot operator</title><link href="https://ilijalazarevic.com/post-advanced-python-dot-operator/" rel="alternate" type="text/html" title="Advanced Python: Dot operator" /><published>2023-10-01T07:14:21+02:00</published><updated>2023-10-01T07:14:21+02:00</updated><id>https://ilijalazarevic.com/post-advanced-python-dot-operator</id><content type="html" xml:base="https://ilijalazarevic.com/post-advanced-python-dot-operator/"><![CDATA[<p>Once again, I will write about something seemingly trivial. It is the “dot operator”. Most of you have already used this operator many times, without knowing or questioning what happens behind the scenes. And in comparison to the concept of metaclasses that I talked about last time, this one is a bit more usable for daily tasks. Just kidding, you are practically using it each time you use Python for something more than a “hello world”.</p>
 
 <p>So what is a “dot operator”? Here is an example:</p>
 
@@ -8,7 +8,7 @@
 <span class="c1"># HELLO WORLD!
 </span></code></pre></div></div>
 
-<p>Well this is surely a “hello world” example, but I can hardly imagine someone started teaching you Python exactly like this. Anyway, the “dot operator” is the part <code class="language-plaintext highlighter-rouge">hello.upper()</code>. Let’s try giving a more verbose example:</p>
+<p>Well, this is surely a “hello world” example, but I can hardly imagine someone starting to teach you Python exactly like this. Anyway, the “dot operator” is the part <code class="language-plaintext highlighter-rouge">hello.upper()</code>. Let’s try giving a more verbose example:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
 
@@ -67,12 +67,12 @@
 
 <span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">'John'</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">shout_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"Hey, what's up?"</span><span class="p">)</span>
-
 <span class="nb">vars</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="c1"># {'name': 'John'}
 </span>
+<span class="k">def</span> <span class="nf">shout_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Hey, what's up?"</span><span class="p">)</span>
+
 <span class="n">p</span><span class="p">.</span><span class="n">shout_v2</span> <span class="o">=</span> <span class="n">shout_v2</span>
 
 <span class="nb">vars</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
@@ -87,11 +87,11 @@
 
 <p>For those unaware of the <code class="language-plaintext highlighter-rouge">vars</code> function, it returns the dictionary that holds attributes of an instance. If you run <code class="language-plaintext highlighter-rouge">vars(Person)</code> you will get a bit different response, but you will get the picture. There will be both attributes with their values and variables that hold class function definitions. There is obviously a difference between an object that is an instance of a class and the class object itself, and so there will be a difference in <code class="language-plaintext highlighter-rouge">vars</code> function response for these two.</p>
 
-<p>Now, it is perfectly valid to additionally define a function after an object is created. This is the line <code class="language-plaintext highlighter-rouge">p.shout_v2 = shout_v2</code>. This does introduce another key-value pair in the instance dictionary. Seemingly everything is good and we will be able to run smoothly, like <code class="language-plaintext highlighter-rouge">shout_v2</code> was specified in the class definition. But alas! Something is truly wrong. We are not able to call it the same way as we did the <code class="language-plaintext highlighter-rouge">shout</code> method.</p>
+<p>Now, it is perfectly valid to additionally define a function after an object is created. This is the line <code class="language-plaintext highlighter-rouge">p.shout_v2 = shout_v2</code>. This does introduce another key-value pair in the instance dictionary. Seemingly everything is good, and we will be able to run smoothly, as if <code class="language-plaintext highlighter-rouge">shout_v2</code> were specified in the class definition. But alas! Something is truly wrong. We are not able to call it the same way as we did the <code class="language-plaintext highlighter-rouge">shout</code> method.</p>
 
-<p>Astute readers should have noticed by now how carefully I use the terms <em>function</em> and <em>method</em>. After all, there is a difference in how Python prints these as well. Take a look at the previous examples. <code class="language-plaintext highlighter-rouge">shout</code> is a method, <code class="language-plaintext highlighter-rouge">shout_v2</code> is a function. At least if we look at these from the perspective of the object <code class="language-plaintext highlighter-rouge">p</code>. If we change the perspective and look at these from the perspective of the <code class="language-plaintext highlighter-rouge">Person</code> class, <code class="language-plaintext highlighter-rouge">shout</code> is a function, and <code class="language-plaintext highlighter-rouge">shout_v2</code> doesn’t exist. It is defined only in the object dictionary (namespace). So if you are really going to rely on object-oriented paradigm and mechanisms like encapsulation, inheritance, abstraction, and polymorphism, you will not define functions on objects, like <code class="language-plaintext highlighter-rouge">p</code> is in our example. You will make sure you are defining functions in a class definition (body).</p>
+<p>Astute readers should have noticed by now how carefully I use the terms <em>function</em> and <em>method</em>. After all, there is a difference in how Python prints these as well. Take a look at the previous examples. <code class="language-plaintext highlighter-rouge">shout</code> is a method, <code class="language-plaintext highlighter-rouge">shout_v2</code> is a function. At least if we look at these from the perspective of the object <code class="language-plaintext highlighter-rouge">p</code>. If we look at these from the perspective of the <code class="language-plaintext highlighter-rouge">Person</code> class, <code class="language-plaintext highlighter-rouge">shout</code> is a function, and <code class="language-plaintext highlighter-rouge">shout_v2</code> doesn’t exist. It is defined only in the object’s dictionary (namespace). So if you are really going to rely on object-oriented paradigms and mechanisms like encapsulation, inheritance, abstraction, and polymorphism, you will not define functions on objects, like <code class="language-plaintext highlighter-rouge">p</code> is in our example. You will make sure you are defining functions in a class definition (body).</p>
 
-<p>So why are these two different, and why do we get the error? Well, the fastest answer is because of the “dot operator”. The longer answer is that there is a mechanism behind the scenes that does the (attribute) name resolution for you. This mechanism consists of <code class="language-plaintext highlighter-rouge">__getattribute__</code> and <code class="language-plaintext highlighter-rouge">__getattr__</code> dunder methods.</p>
+<p>So why are these two different, and why do we get the error? Well, the fastest answer is because of how the “dot operator” works. The longer answer is that there is a mechanism behind the scenes that does the (attribute) name resolution for you. This mechanism consists of <code class="language-plaintext highlighter-rouge">__getattribute__</code> and <code class="language-plaintext highlighter-rouge">__getattr__</code> dunder methods.</p>
 
 <h2 id="getting-the-attributes">Getting the attributes</h2>
 
@@ -139,7 +139,7 @@
 # AttributeError:
 </span></code></pre></div></div>
 
-<p>It is very important to call <code class="language-plaintext highlighter-rouge">super().__getattribute__(...)</code> in your implementation of <code class="language-plaintext highlighter-rouge">__getattribute__</code> and the reason, like I wrote earlier, is that there is a lot going on in Python’s default implementation. And this is exactly the place where “dot operator” gets its magic from. Well, at least half of the magic is there. The other part is in how a class object is created after interpreting the class definition.</p>
+<p>It is very important to call <code class="language-plaintext highlighter-rouge">super().__getattribute__(...)</code> in your implementation of <code class="language-plaintext highlighter-rouge">__getattribute__</code>, and the reason, like I wrote earlier, is that there is a lot going on in Python’s default implementation. And this is exactly the place where “dot operator” gets its magic from. Well, at least half of the magic is there. The other part is in how a class object is created after interpreting the class definition.</p>
 
 <h2 id="class-functions">Class functions</h2>
 
@@ -152,23 +152,96 @@
 <span class="c1"># &lt;function __main__.Person.shout(self)&gt;
 </span></code></pre></div></div>
 
-<p>It is the object that has methods. The process of transforming the function in a class into a method of an object is called bounding, and the result is what you see in the previous example, a <em>bound method</em>. What makes it <em>bound</em>, and to what? Well, once you have an instance of a class and start calling its methods, you are, in essence, passing the object reference to each of its methods. It is called <code class="language-plaintext highlighter-rouge">self</code>. So, how does this happen, and who does it?</p>
+<p>When looking from the object’s perspective, these are called methods. The process of transforming the function of a class into a method of an object is called bounding, and the result is what you see in the previous example, a <em>bound method</em>. What makes it <em>bound</em>, and to what? Well, once you have an instance of a class and start calling its methods, you are, in essence, passing the object reference to each of its methods. Remember the <code class="language-plaintext highlighter-rouge">self</code> argument? So, how does this happen, and who does it?</p>
 
-<p>Well, the first part happens when the class body is being interpreted. There are quite a few things that happen in this process, like defining a class namespace, adding attribute values to it, defining (class) functions, and binding them to their names. Now, as these functions are being defined, they are being wrapped in a way. Wrapped in an object conceptually called <strong><em>descriptor</em></strong>. This <em>descriptor</em> is enabling this change in the identification and behavior of class functions that we saw previously. I’ll make sure to write a separate blog post about <em>descriptors</em>, but for now, know that this object is an instance of a class that implements a predefined set of dunder methods. This is also called a <em>Protocol</em>. Once these are implemented, objects of this class are expected to behave in a specific way. There is a difference between the <strong>data</strong> and <strong>non-data</strong> descriptors. Former implements <code class="language-plaintext highlighter-rouge">__get__</code>, <code class="language-plaintext highlighter-rouge">__set__</code>, and <code class="language-plaintext highlighter-rouge">__delete__</code> dunder methods. Later, it implements only the <code class="language-plaintext highlighter-rouge">__get__</code> method. Anyway, each function in a class ends up wrapped in a so-called <strong>non-data</strong> descriptor.</p>
+<p>Well, the first part happens when the class body is being interpreted. There are quite a few things that happen in this process, like defining a class namespace, adding attribute values to it, defining (class) functions, and binding them to their names. Now, as these functions are being defined, they are being wrapped in a way. Wrapped in an object conceptually called <strong><em>descriptor</em></strong>. This <em>descriptor</em> is enabling this change in the identification and behavior of class functions that we saw previously. I’ll make sure to write a separate blog post about <em>descriptors</em>, but for now, know that this object is an instance of a class that implements a predefined set of dunder methods. This is also called a <em>Protocol</em>. Once these are implemented, it is said that objects of this class <em>follow</em> the specific protocol and therefore behave in the expected way. There is a difference between the <strong>data</strong> and <strong>non-data</strong> descriptors. Former implements <code class="language-plaintext highlighter-rouge">__get__</code>, <code class="language-plaintext highlighter-rouge">__set__</code>, and/or <code class="language-plaintext highlighter-rouge">__delete__</code> dunder methods. Later, implement only the <code class="language-plaintext highlighter-rouge">__get__</code> method. Anyway, each function in a class ends up being wrapped in a so-called <strong>non-data</strong> descriptor.</p>
 
-<p>Once you initiate attribute lookup by using the “dot operator”, the <code class="language-plaintext highlighter-rouge">__getattribute__</code> method is called, and the whole process of scanning starts. This process stops when resolution is successful, and it goes something like this:</p>
+<p>Once you initiate attribute lookup by using the “dot operator”, the <code class="language-plaintext highlighter-rouge">__getattribute__</code> method is called, and the whole process of name resolution starts. This process stops when resolution is successful, and it goes something like this:</p>
 
 <ol>
-  <li>return the data descriptor that has the desired name, or</li>
-  <li>return instance attribute with the desired name, or</li>
-  <li>return non-data descriptor with the desired name, or</li>
-  <li>return class attribute with the desired name, or</li>
+  <li>return the data descriptor that has the desired name (class level), or</li>
+  <li>return instance attribute with the desired name (instance level), or</li>
+  <li>return non-data descriptor with the desired name (class level), or</li>
+  <li>return class attribute with the desired name (class level), or</li>
   <li>raise <code class="language-plaintext highlighter-rouge">AttributeError</code> that essentially calls the <code class="language-plaintext highlighter-rouge">__getattr__</code> method.</li>
 </ol>
 
-<p>I’ll leave a link to official documentation on the Python implementation of this mechanism. I highly advise you to go and try understanding the whole logic behind it.</p>
+<p>My initial idea was to leave you with a reference to the official documentation on how this mechanism is implemented, at least a Python mockup, for learning purposes, but I have decided to help you out with that part as well. However, I highly advise you to go and read the whole page of official documentation.</p>
 
-<p>The important thing here is that each class function (which is an object) gets wrapped in a non-data descriptor (which is a function), and this means that this wrapper object has the <code class="language-plaintext highlighter-rouge">__get__</code> dunder method defined. What this dunder method does is return a new callable (think of it as a new function), where the first argument is the reference to the object on which we are performing the “dot operator”. I said to think about it as a new function since it is a callable. In essence, it is another object called <code class="language-plaintext highlighter-rouge">MethodType</code>. Check it out:</p>
+<p>So, in the next code snippet, I’ll put some of the descriptions in the comments, so it is easier to read and understand the code. Here it is:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">object_getattribute</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="s">"Emulate PyObject_GenericGetAttr() in Objects/object.c"</span>
+    <span class="c1"># Create vanilla object for later use.
+</span>    <span class="n">null</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+
+    <span class="s">"""
+    obj is an object instantiated from our custom class. Here we try 
+    to find the name of the class it was instantiated from.
+    """</span>
+    <span class="n">objtype</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> 
+
+    <span class="s">"""
+    name represents the name of the class function, object's method, 
+    or any class attribute. Here, we try to find it and keep a 
+    reference to it. MRO is short for Method Resolution Order, and it 
+    has to do with class inheritance. Not really that important at 
+    this point. Let's say that this mechanism optimally finds its name
+    through all parent classes.
+    """</span>
+    <span class="n">cls_var</span> <span class="o">=</span> <span class="n">find_name_in_mro</span><span class="p">(</span><span class="n">objtype</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">null</span><span class="p">)</span>
+
+    <span class="s">"""
+    Here we check if this class attribute is an object that has the 
+    __get__ method implemented. If it does,  it is a non-data 
+    descriptor. This is important for further steps.
+    """</span>
+    <span class="n">descr_get</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cls_var</span><span class="p">),</span> <span class="s">'__get__'</span><span class="p">,</span> <span class="n">null</span><span class="p">)</span>
+
+    <span class="s">"""
+    So now it's either our class attribute references a descriptor, in
+    which case we test to see if it is a data descriptor and we 
+    return reference to the descriptor's __get__ method, or we go to 
+    the next if code block.
+    """</span>
+    <span class="k">if</span> <span class="n">descr_get</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">null</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cls_var</span><span class="p">),</span> <span class="s">'__set__'</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cls_var</span><span class="p">),</span> <span class="s">'__delete__'</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">descr_get</span><span class="p">(</span><span class="n">cls_var</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="p">)</span>     <span class="c1"># data descriptor
+</span>
+    <span class="s">"""
+    In cases where the name doesn't reference a data descriptor, we 
+    check to see if it references the variable in the object's 
+    dictionary, and if so, we return its value.
+    """</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s">'__dict__'</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">obj</span><span class="p">)[</span><span class="n">name</span><span class="p">]</span>                          <span class="c1"># instance variable
+</span>
+    <span class="s">"""
+    In cases where the name does not reference the variable in the 
+    object's dictionary, we try to see if it references a non-data 
+    descriptor and return a reference to it.    
+    """</span>
+    <span class="k">if</span> <span class="n">descr_get</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">null</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">descr_get</span><span class="p">(</span><span class="n">cls_var</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="p">)</span>         <span class="c1"># non-data descriptor
+</span>
+    <span class="s">"""
+    In case name did not reference anything from above, we try to see 
+    if it references a class attribute and return its value.
+    """</span>
+    <span class="k">if</span> <span class="n">cls_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">null</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cls_var</span>                                  <span class="c1"># class variable
+</span>
+    <span class="s">"""
+    If name resolution was unsuccessful, we throw an AttriuteError 
+    exception, and __getattr__ is being invoked.
+    """</span>
+    <span class="k">raise</span> <span class="nb">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Keep in mind that this implementation is in Python for the sake of documenting and describing the logic implemented in the <code class="language-plaintext highlighter-rouge">__getattribute__</code> method. In reality, it is implemented in C. Just by looking at it, you can imagine that it is better not to play around with re-implementing the whole thing. The best way is to try doing part of the resolution by yourself and then fall back on the CPython implementation with <code class="language-plaintext highlighter-rouge">return super().__getattribute__(name)</code> as shown in the example above.</p>
+
+<p>The important thing here is that each class function (which is an object) gets wrapped in a non-data descriptor (which is a <code class="language-plaintext highlighter-rouge">function</code> class object), and this means that this wrapper object has the <code class="language-plaintext highlighter-rouge">__get__</code> dunder method defined. What this dunder method does is return a new callable (think of it as a new function), where the first argument is the reference to the object on which we are performing the “dot operator”. I said to think about it as a new function since it is a <em>callable</em>. In essence, it is another object called <code class="language-plaintext highlighter-rouge">MethodType</code>. Check it out:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">shout</span><span class="p">)</span>
 <span class="c1"># getting the attribute name: shout
@@ -178,7 +251,7 @@
 <span class="c1"># function
 </span></code></pre></div></div>
 
-<p>One interesting thing certainly is that this type of class function is <code class="language-plaintext highlighter-rouge">function</code>. And this type is exactly the wrapper object that defines the <code class="language-plaintext highlighter-rouge">__get__</code> method. However, once we try to access it as method <code class="language-plaintext highlighter-rouge">shout</code> by “dot operator”, <code class="language-plaintext highlighter-rouge">__getattribute__</code> iterates through the list and stops at the third case (return non-data descriptor). This <code class="language-plaintext highlighter-rouge">__get__</code> method contains additional logic that takes the object’s reference and creates <code class="language-plaintext highlighter-rouge">MethodType</code> with reference to the function and object.</p>
+<p>One interesting thing certainly is this <code class="language-plaintext highlighter-rouge">function</code> class. This one is exactly the wrapper object that defines the <code class="language-plaintext highlighter-rouge">__get__</code> method. However, once we try to access it as method <code class="language-plaintext highlighter-rouge">shout</code> by “dot operator”, <code class="language-plaintext highlighter-rouge">__getattribute__</code> iterates through the list and stops at the third case (return non-data descriptor). This <code class="language-plaintext highlighter-rouge">__get__</code> method contains additional logic that takes the object’s reference and creates <code class="language-plaintext highlighter-rouge">MethodType</code> with reference to the <code class="language-plaintext highlighter-rouge">function</code> and object.</p>
 
 <p>Here is the official documentation mockup:</p>
 
@@ -191,7 +264,30 @@
         <span class="k">return</span> <span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>And MethodType just keeps these references and implements a callable protocol. Here is the official documentation mockup:</p>
+<p>Disregard the difference in class name. I have been using <code class="language-plaintext highlighter-rouge">function</code> instead of <code class="language-plaintext highlighter-rouge">Function</code> to make it easier for grasping, but I’ll use the <code class="language-plaintext highlighter-rouge">Function</code> name from now on so it follows the official documentation explanation.</p>
+
+<p>Anyway, just by looking at this mockup, it may be enough to understand how this <code class="language-plaintext highlighter-rouge">function</code> class fits the picture, but let me add a couple of lines of code that are missing, which will probably make things even clearer. I’ll add two more class functions in this example, namely:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Function</span><span class="p">:</span>
+    <span class="p">...</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="p">...</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fun</span> <span class="o">=</span> <span class="n">fun</span>
+
+    <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="p">...</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Why did I add these functions? Well, now you can easily imagine how the <code class="language-plaintext highlighter-rouge">Function</code> object plays its role in this whole scenario of method bounding. This new <code class="language-plaintext highlighter-rouge">Function</code> object stores the original function as an attribute. This object is also <em>callable</em> which means that we can invoke it as a function. In that case, it works just as the function it wraps. Remember, everything in Python is an object, even functions. And <code class="language-plaintext highlighter-rouge">MethodType</code> ‘wraps’ <code class="language-plaintext highlighter-rouge">Function</code> object along with the reference to the object on which we are calling method (in our case <code class="language-plaintext highlighter-rouge">shout</code>).</p>
+
+<p>How does <code class="language-plaintext highlighter-rouge">MethodType</code> do this? Well, it keeps these references and implements a callable protocol. Here is the official documentation mockup for the <code class="language-plaintext highlighter-rouge">MethodType</code> class:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MethodType</span><span class="p">:</span>
 
@@ -205,7 +301,9 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>In the end, it should be clear why we make a distinction between functions and methods and how functions get bound once they are accessed through objects and the “dot operator”. If you think about it, we would be perfectly okay with invoking class functions in the next way:</p>
+<p>Again, for brevity’s sake, <code class="language-plaintext highlighter-rouge">func</code> ends up referencing our initial class function (<code class="language-plaintext highlighter-rouge">shout</code>), <code class="language-plaintext highlighter-rouge">obj</code> references instance (<code class="language-plaintext highlighter-rouge">p</code>), and then we have arguments and keyword arguments that are passed along. <code class="language-plaintext highlighter-rouge">self</code> in the <code class="language-plaintext highlighter-rouge">shout</code> declaration ends up referencing this ‘obj’, which is essentially <code class="language-plaintext highlighter-rouge">p</code> in our example.</p>
+
+<p>In the end, it should be clear why we make a distinction between functions and methods and how functions get bound once they are accessed through objects by using the “dot operator”. If you think about it, we would be perfectly okay with invoking class functions in the following way:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
 
@@ -223,14 +321,103 @@
 <span class="c1"># Hey! I'm John.
 </span></code></pre></div></div>
 
-<p>Yet, this really is not the advised way, and is just plain ugly. Usually you will not have to do this in your code. And this concludes what I wanted to write in this article. Descriptors are next, since it is so important concept.</p>
+<p>Yet, this really is not the advised way and is just plain ugly. Usually, you will not have to do this in your code.</p>
+
+<p>So, before I conclude, I want to go over a couple of examples of attribute resolution just to make this easier to grasp. Let’s use the previous example and figure out how the dot operator works.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">p</span><span class="p">.</span><span class="n">name</span>
+<span class="s">"""
+1. __getattribute__ is invoked with p and "name" arguments.
+
+2. objtype is Person.
+
+3. descr_get is null because the Person class doesn't have 
+   "name" in its dictionary (namespace).
+
+4. Since there is no descr_get at all, we skip the first if block.
+
+5. "name" does exist in the object's dictionary so we get the value.
+"""</span>
+
+<span class="n">p</span><span class="p">.</span><span class="n">shout</span><span class="p">(</span><span class="s">'Hey'</span><span class="p">)</span>
+<span class="s">"""
+Before we go into name resolution steps, keep in mind that 
+Person.shout is an instance of a function class. Essentially, it gets 
+wrapped in it. And this object is callable, so you can invoke it with 
+Person.shout(...). From a developer perspective, everything works just
+as if it were defined in the class body. But in the background, it 
+most certainly is not.
+
+1. __getattribute__ is invoked with p and "shout" arguments.
+
+2. objtype is Person.
+
+3. Person.shout is actually wrapped and is a non-data descriptor.
+So this wrapper does have the __get__ method implemented, and it
+gets referenced by descr_get.
+
+4. The wrapper object is a non-data descriptor, so the first if block 
+   is skipped.
+
+5. "shout" doesn't exist in the object's dictionary because it is part 
+   of class definition. Second if block is skipped.
+
+6. "shout" is a non-data descriptor, and its __get__ method is returned
+   from the third if code block.
+
+Now, here we tried accessing p.shout('Hey'), but what we did get is
+p.shout.__get__ method. This one returns a MethodType object. Because
+of this p.shout(...) works, but what ends up being called is an 
+instance of the MethodType class. This object is essentially a wrapper
+around the `Function` wrapper, and it holds reference to the `Function`
+wrapper and our object p. In the end, when you invoke p.shout('Hey'), 
+what ends up being invoked is `Function` wrapper with p object, and 
+'Hey' as one of the positional arguments.
+"""</span>
+
+<span class="n">Person</span><span class="p">.</span><span class="n">shout</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="s">"""
+Before we go into name resolution steps, keep in mind that 
+Person.shout is an instance of a function class. Essentially, it gets 
+wrapped in it. And this object is callable, so you can invoke it with 
+Person.shout(...). From a developer perspective, everything works just
+as if it were defined in the class body. But in the background, it 
+most certainly is not.
+
+This part is the same. The following steps are different. Check
+it out.
+
+1. __getattribute__ is invoked with Person and "shout" arguments.
+
+2. objtype is a type. This mechanism is described in my post on
+metaclasses.
+
+3. Person.shout is actually wrapped and is a non-data descriptor,
+so this wrapper does have the __get__ method implemented, and it
+gets referenced by descr_get.
+
+4. The wrapper object is a non-data descriptor, so first if block is 
+   skipped.
+
+5. "shout" does exist in an object's dictionary because Person is
+   object after all. So the "shout" function is returned.
+
+When Person.shout is invoked, what actually gets invoked is an instance
+of the `Function` class, which is also callable and wrapper around the
+original function defined in the class body. This way, the original 
+function gets called with all positional and keyword arguments.
+"""</span>
+</code></pre></div></div>
+
+<p>And this concludes what I wanted to write in this article. Descriptors are next, since it is so important concept.</p>
 
 <p>Until then, best of luck paving your way into the land of Python.</p>
 
 <h2 id="references">References</h2>
 
 <ul>
-  <li><a href="https://docs.python.org/3/howto/descriptor.html#id17">Invocation from an instance</a></li>
+  <li><a href="https://docs.python.org/3/howto/descriptor.html#invocation-from-an-instance">Invocation from an instance</a></li>
   <li><a href="https://docs.python.org/3/howto/descriptor.html#id25">Functions and methods</a></li>
 </ul>
 
