@@ -132,7 +132,7 @@
     <span class="k">if</span> <span class="n">descr_get</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">null</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cls_var</span><span class="p">),</span> <span class="s">'__set__'</span><span class="p">)</span>
             <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cls_var</span><span class="p">),</span> <span class="s">'__delete__'</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="n">descr_get</span><span class="p">(</span><span class="n">cls_var</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="p">)</span>     <span class="c1"># data descriptor
+            <span class="k">return</span> <span class="n">descr_get</span><span class="p">(</span><span class="n">cls_var</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="p">)</span>  <span class="c1"># data descriptor
 </span>
     <span class="s">"""
     In cases where the name doesn't reference a data descriptor, we 
@@ -140,7 +140,7 @@
     dictionary, and if so, we return its value.
     """</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s">'__dict__'</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">obj</span><span class="p">)[</span><span class="n">name</span><span class="p">]</span>                          <span class="c1"># instance variable
+        <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">obj</span><span class="p">)[</span><span class="n">name</span><span class="p">]</span>  <span class="c1"># instance variable
 </span>
     <span class="s">"""
     In cases where the name does not reference the variable in the 
@@ -148,14 +148,14 @@
     descriptor and return a reference to it.    
     """</span>
     <span class="k">if</span> <span class="n">descr_get</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">null</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">descr_get</span><span class="p">(</span><span class="n">cls_var</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="p">)</span>         <span class="c1"># non-data descriptor
+        <span class="k">return</span> <span class="n">descr_get</span><span class="p">(</span><span class="n">cls_var</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="p">)</span>  <span class="c1"># non-data descriptor
 </span>
     <span class="s">"""
     In case name did not reference anything from above, we try to see 
     if it references a class attribute and return its value.
     """</span>
     <span class="k">if</span> <span class="n">cls_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">null</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">cls_var</span>                                  <span class="c1"># class variable
+        <span class="k">return</span> <span class="n">cls_var</span>  <span class="c1"># class variable
 </span>
     <span class="s">"""
     If name resolution was unsuccessful, we throw an AttriuteError 
