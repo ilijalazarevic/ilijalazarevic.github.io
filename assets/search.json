@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Applied Python: Pydantic",
+      "description" : "Working with data almost always starts with data clearning, parsing, and validating. Pydantic is a Python library that sets standards for how it should be done.",
+      "tags"     : "python, pydantic, big data, processing, llm",
+      "url"      : "/post-applied-python-pydantic/",
+      "date"     : "2024-07-24 07:14:21 +0200"
+    } ,
+  
+    {
       "title"    : "Advanced Python: Dot operator",
       "description" : "Dot operator in Python is probably always overlooked, but it holds crucial mechanism for object-oriented programming.",
       "tags"     : "python, oop, advanced",
