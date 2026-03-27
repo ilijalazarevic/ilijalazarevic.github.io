@@ -159,7 +159,8 @@
       var oldQuote = getActiveQuote();
       if (oldQuote) {
         oldQuote.classList.remove('no-overflow', 'scrolled-end');
-        oldQuote.scrollTop = 0;
+        var oldInner = oldQuote.querySelector('.testimonial__quote-inner');
+        if (oldInner) oldInner.style.transform = '';
       }
 
       cards[currentIndex].classList.remove('active');
@@ -169,7 +170,8 @@
       // Reset new card's quote and start auto-scroll
       var newQuote = getActiveQuote();
       if (newQuote) {
-        newQuote.scrollTop = 0;
+        var newInner = newQuote.querySelector('.testimonial__quote-inner');
+        if (newInner) newInner.style.transform = '';
         newQuote.classList.remove('no-overflow', 'scrolled-end');
       }
 
@@ -216,24 +218,32 @@
       var quote = getActiveQuote();
       if (!quote) { scheduleAdvance(); return; }
 
-      var hasOverflow = quote.scrollHeight > quote.clientHeight + 1;
-      if (!hasOverflow) {
+      var inner = quote.querySelector('.testimonial__quote-inner');
+      if (!inner) { scheduleAdvance(); return; }
+
+      var maxScroll = inner.scrollHeight - quote.clientHeight;
+      if (maxScroll <= 1) {
         quote.classList.add('no-overflow');
         scheduleAdvance();
         return;
       }
 
+      var scrollOffset = 0;
+
       function step() {
         if (isPaused) return;
-        quote.scrollTop += pxPerFrame;
+        scrollOffset += pxPerFrame;
 
-        if (quote.scrollTop + quote.clientHeight >= quote.scrollHeight - 1) {
+        if (scrollOffset >= maxScroll) {
+          scrollOffset = maxScroll;
+          inner.style.transform = 'translateY(-' + scrollOffset + 'px)';
           quote.classList.add('scrolled-end');
           scrollAnimId = null;
           scheduleAdvance();
           return;
         }
 
+        inner.style.transform = 'translateY(-' + scrollOffset + 'px)';
         scrollAnimId = requestAnimationFrame(step);
       }
 

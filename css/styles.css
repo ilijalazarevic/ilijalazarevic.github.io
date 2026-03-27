@@ -527,14 +527,20 @@ ul {
   position: relative;
 }
 
-/* Fade gradient overlay — sticky so it stays fixed while text scrolls */
+.testimonial__quote-inner {
+  display: block;
+  will-change: transform;
+}
+
+/* Fade gradient overlay — absolute so it stays pinned while inner content translates */
 .testimonial__quote::after {
   content: '';
   display: block;
-  position: sticky;
+  position: absolute;
   bottom: 0;
+  left: 0;
+  right: 0;
   height: 1.7em;
-  margin-top: -1.7em;
   background: linear-gradient(transparent, var(--color-cream));
   pointer-events: none;
   transition: opacity 0.3s ease;
