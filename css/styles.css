@@ -935,6 +935,7 @@ ul {
   scrollbar-width: none;
   cursor: grab;
   user-select: none;
+  touch-action: pan-y pinch-zoom;
   padding: 0 var(--space-md);
 }
 

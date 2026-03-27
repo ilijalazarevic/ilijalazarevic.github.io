@@ -287,13 +287,26 @@
     // Match the old 40s CSS animation speed: full half-width in 40s at ~60fps
     var pxPerFrame = halfScrollWidth / (40 * 60);
 
+    // Start at a small offset so the <= 0 wrap condition doesn't fire on first frame
+    filmstrip.scrollLeft = 1;
+
+    // Recalculate dimensions on resize / orientation change
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        halfScrollWidth = filmstripTrack.scrollWidth / 2;
+        pxPerFrame = halfScrollWidth / (40 * 60);
+      }, 200);
+    });
+
     function autoScroll() {
       if (!paused && !isDragging) {
         filmstrip.scrollLeft += pxPerFrame;
         // Seamless loop: wrap in both directions
         if (filmstrip.scrollLeft >= halfScrollWidth) {
           filmstrip.scrollLeft -= halfScrollWidth;
-        } else if (filmstrip.scrollLeft <= 0) {
+        } else if (filmstrip.scrollLeft < 1) {
           filmstrip.scrollLeft += halfScrollWidth;
         }
       }
@@ -313,7 +326,7 @@
       }
     }
 
-    // Pause on hover
+    // Pause on hover (desktop only — pointer events handle touch)
     filmstrip.addEventListener('mouseenter', function () {
       paused = true;
     });
@@ -322,14 +335,6 @@
       if (!isDragging) {
         paused = false;
       }
-    });
-
-    filmstrip.addEventListener('touchstart', function () {
-      paused = true;
-    }, { passive: true });
-
-    filmstrip.addEventListener('touchend', function () {
-      paused = false;
     });
 
     // Drag to scroll
@@ -355,7 +360,7 @@
         filmstrip.scrollLeft -= halfScrollWidth;
         dragScrollLeft = filmstrip.scrollLeft;
         startX = x;
-      } else if (filmstrip.scrollLeft <= 0) {
+      } else if (filmstrip.scrollLeft < 1) {
         filmstrip.scrollLeft += halfScrollWidth;
         dragScrollLeft = filmstrip.scrollLeft;
         startX = x;
@@ -368,6 +373,11 @@
     });
 
     filmstrip.addEventListener('pointercancel', function () {
+      isDragging = false;
+      paused = false;
+    });
+
+    filmstrip.addEventListener('lostpointercapture', function () {
       isDragging = false;
       paused = false;
     });
