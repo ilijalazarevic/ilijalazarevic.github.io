@@ -175,6 +175,7 @@
         newQuote.classList.remove('no-overflow', 'scrolled-end');
       }
 
+      savedScrollOffset = 0;
       autoScrollText();
     }
 
@@ -200,6 +201,9 @@
       if (scrollAnimId) { cancelAnimationFrame(scrollAnimId); scrollAnimId = null; }
     }
 
+    // Track current scroll offset per card so resume continues from where it paused
+    var savedScrollOffset = 0;
+
     function pause() {
       isPaused = true;
       cancelTextScroll();
@@ -208,10 +212,10 @@
 
     function resume() {
       isPaused = false;
-      autoScrollText();
+      autoScrollText(savedScrollOffset);
     }
 
-    function autoScrollText() {
+    function autoScrollText(startOffset) {
       cancelTextScroll();
       if (reducedMotion.matches || isPaused) return;
 
@@ -228,14 +232,17 @@
         return;
       }
 
-      var scrollOffset = 0;
+      var scrollOffset = startOffset || 0;
+      savedScrollOffset = scrollOffset;
 
       function step() {
         if (isPaused) return;
         scrollOffset += pxPerFrame;
+        savedScrollOffset = scrollOffset;
 
         if (scrollOffset >= maxScroll) {
           scrollOffset = maxScroll;
+          savedScrollOffset = scrollOffset;
           inner.style.transform = 'translateY(-' + scrollOffset + 'px)';
           quote.classList.add('scrolled-end');
           scrollAnimId = null;
@@ -264,6 +271,30 @@
 
     document.addEventListener('touchstart', function (e) {
       if (isPaused && !carouselTrack.contains(e.target)) resume();
+    }, { passive: true });
+
+    // Mobile: swipe left/right to switch testimonials
+    var swipeStartX = 0;
+    var swipeStartY = 0;
+    var swipeTracking = false;
+
+    carouselTrack.addEventListener('touchstart', function (e) {
+      var touch = e.touches[0];
+      swipeStartX = touch.clientX;
+      swipeStartY = touch.clientY;
+      swipeTracking = true;
+    }, { passive: true });
+
+    carouselTrack.addEventListener('touchend', function (e) {
+      if (!swipeTracking) return;
+      swipeTracking = false;
+      var touch = e.changedTouches[0];
+      var dx = touch.clientX - swipeStartX;
+      var dy = touch.clientY - swipeStartY;
+      // Only trigger if horizontal swipe > 50px and more horizontal than vertical
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) { next(); } else { prev(); }
+      }
     }, { passive: true });
 
     // Kick off auto-scroll for the first card
