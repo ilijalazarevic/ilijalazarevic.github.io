@@ -1,1 +1,315 @@
-<!DOCTYPE html> <html lang="en-US"> <head prefix="og: http://ogp.me/ns#"> <meta charset="UTF-8" /> <meta http-equiv="X-UA-Compatible" content="ie=edge" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <meta name="mobile-web-app-capable" content="yes" /> <meta name="apple-mobile-web-app-capable" content="yes" /> <meta name="application-name" content="Ilija Lazarevic" /> <meta name="apple-mobile-web-app-status-bar-style" content="#fff" /> <meta name="apple-mobile-web-app-title" content="Ilija Lazarevic" /> <title> Ilija Lazarevic </title> <link rel="alternate" href="http://localhost:4000/" hreflang="en-US" /> <link rel="canonical" href="http://localhost:4000/" /> <meta name="description" content="My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts." /> <meta name="referrer" content="no-referrer-when-downgrade" /> <meta property="fb:app_id" content="" /> <meta property="og:site_name" content="Ilija Lazarevic" /> <meta property="og:title" content="Ilija Lazarevic" /> <meta property="og:type" content="website" /> <meta property="og:url" content="http://localhost:4000/" /> <meta property="og:description" content="My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts." /> <meta property="og:image" content="" /> <meta property="og:image:width" content="640" /> <meta property="og:image:height" content="640" /> <meta name="twitter:card" content="summary" /> <meta name="twitter:title" content="Ilija Lazarevic" /> <meta name="twitter:url" content="http://localhost:4000/" /> <meta name="twitter:site" content="@" /> <meta name="twitter:creator" content="@" /> <meta name="twitter:description" content="My personal blog where I share my posts about artificial intelligence, machine learning and data science, programming, and various thoughts." /> <meta name="twitter:image" content="" /> <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Ilija Lazarevic" /> <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png" /> <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png" /> <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png" /> <link rel="manifest" href="/assets/favicons/site.webmanifest" /> <link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#5bbad5" /> <meta name="apple-mobile-web-app-title" content="Jekyll Klise" /> <meta name="application-name" content="Jekyll Klise" /> <meta name="msapplication-TileColor" content="#da532c" /> <meta name="theme-color" content="#2c2c2c" /> <link rel="stylesheet" href="/assets/css/style.css" /> <!-- for mathjax support --> </head> <body data-theme="dark" class="notransition"> <script> const body = document.body; const data = body.getAttribute("data-theme"); const initTheme = (state) => { if (state === "dark") { body.setAttribute("data-theme", "dark"); } else if (state === "light") { body.removeAttribute("data-theme"); } else { localStorage.setItem("theme", data); } }; initTheme(localStorage.getItem("theme")); setTimeout(() => body.classList.remove("notransition"), 75); </script> <div class="navbar" role="navigation"> <nav class="menu"> <input type="checkbox" id="menu-trigger" class="menu-trigger" /> <label for="menu-trigger"> <span class="menu-icon"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512" > <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" /> </svg> </span> </label> <a id="mode"> <svg class="mode-sunny" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512" > <title>LIGHT</title> <line x1="256" y1="48" x2="256" y2="96" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="256" y1="416" x2="256" y2="464" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="403.08" y1="108.92" x2="369.14" y2="142.86" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="142.86" y1="369.14" x2="108.92" y2="403.08" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="464" y1="256" x2="416" y2="256" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="96" y1="256" x2="48" y2="256" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="403.08" y1="403.08" x2="369.14" y2="369.14" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="142.86" y1="142.86" x2="108.92" y2="108.92" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <circle cx="256" cy="256" r="80" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> </svg> <svg class="mode-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512" > <title>DARK</title> <line x1="256" y1="48" x2="256" y2="96" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="256" y1="416" x2="256" y2="464" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="403.08" y1="108.92" x2="369.14" y2="142.86" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="142.86" y1="369.14" x2="108.92" y2="403.08" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="464" y1="256" x2="416" y2="256" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="96" y1="256" x2="48" y2="256" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="403.08" y1="403.08" x2="369.14" y2="369.14" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <line x1="142.86" y1="142.86" x2="108.92" y2="108.92" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> <circle cx="256" cy="256" r="80" style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" /> </svg> </a> <div class="trigger"> <div class="trigger-container"><a class="menu-link active" href="/">home</a><a class="menu-link" href="/archive/">archive</a><a class="menu-link" href="/about/">about</a><a class="menu-link rss" href="/feed.xml"> <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 512 512" fill="#ED812E" > <title>RSS</title> <path d="M108.56,342.78a60.34,60.34,0,1,0,60.56,60.44A60.63,60.63,0,0,0,108.56,342.78Z" /> <path d="M48,186.67v86.55c52,0,101.94,15.39,138.67,52.11s52,86.56,52,138.67h86.66C325.33,312.44,199.67,186.67,48,186.67Z" /> <path d="M48,48v86.56c185.25,0,329.22,144.08,329.22,329.44H464C464,234.66,277.67,48,48,48Z" /> </svg> </a> </div> </div> </nav> </div> <div class="wrapper"> <div class="author"> <img class="author-avatar" src="/assets/img/avatar.jpg" alt="ilijalazarevic" /> <h2 class="author-name">Ilija Lazarevic</h2> <p class="author-bio">Computer Science MSc, musician and free thinker <br/><a href="https://www.linkedin.com/in/ilijalazarevic" target="_blank" rel="noopener">@linkedin</a> :: <a href="https://github.com/ilijalazarevic" target="_blank" rel="noopener">@github</a> :: <a href="https://stackoverflow.name/ilija" target="_blank" rel="noopener">@stackoverflow</a></p> </div> <main aria-label="Content"> <h3 class="posts-item-note" aria-label="Recent Posts">Recent Posts</h3><article class="post-item"> <span class="post-item-date">Jul 24, 2024</span> <h4 class="post-item-title"> <a href="/post-applied-python-pydantic/">Applied Python: Pydantic</a> </h4> </article><article class="post-item"> <span class="post-item-date">Oct 01, 2023</span> <h4 class="post-item-title"> <a href="/post-advanced-python-dot-operator/">Advanced Python: Dot operator</a> </h4> </article><article class="post-item"> <span class="post-item-date">Sep 06, 2023</span> <h4 class="post-item-title"> <a href="/post-advanced-python-metaclasses/">Advanced Python: Metaclasses</a> </h4> </article><article class="post-item"> <span class="post-item-date">Aug 01, 2023</span> <h4 class="post-item-title"> <a href="/post-advanced-python-functions/">Advanced Python: Functions</a> </h4> </article><article class="post-item"> <span class="post-item-date">Jul 13, 2023</span> <h4 class="post-item-title"> <a href="/post-python-virtual-environments/">Managing Python Versions and Virtual Environments</a> </h4> </article> </main> <footer class="footer"> <span class="footer_item">Ilija Lazarevic &copy; 2024</span> <small class="footer_copyright"> <!-- Klisé Theme: https://github.com/piharpi/jekyll-klise --> <a href="https://github.com/piharpi/jekyll-klise" target="_blank" rel="noreferrer noopener" >klisé</a > theme on <a href="https://jekyllrb.com" target="_blank" rel="noreferrer noopener" >jekyll</a > </small> </footer> <script src="/assets/js/main.js" defer="defer"></script> </div> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ilija Lazarević - AI Implementation for Founders & SMBs</title>
+  <meta name="description" content="Hands-on AI implementation for founders and SMBs ready to move past the hype. From strategy to working solutions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <!-- Skip to content -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header__inner container">
+      <a href="#" class="header__logo" aria-label="Home">Ilija Lazarević</a>
+      <nav class="header__nav" id="nav" aria-label="Main navigation">
+        <ul class="header__nav-list">
+          <li><a href="#hero" class="header__nav-link">Home</a></li>
+          <li><a href="#services" class="header__nav-link">Services</a></li>
+          <li><a href="#recommendations" class="header__nav-link">Testimonials</a></li>
+          <li><a href="#videos" class="header__nav-link">Videos</a></li>
+          <li><a href="https://blog.ilijalazarevic.com" class="header__nav-link" target="_blank" rel="noopener noreferrer">Blog</a></li>
+          <li><a href="#gallery" class="header__nav-link">Gallery</a></li>
+          <li>
+            <a href="#footer-cta" class="btn btn--primary header__cta" aria-label="Book a discovery call">Book a Call</a>
+          </li>
+        </ul>
+      </nav>
+      <button class="header__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+        <span class="header__toggle-bar"></span>
+        <span class="header__toggle-bar"></span>
+        <span class="header__toggle-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero bg-cream" id="hero">
+      <div class="hero__inner container">
+        <div class="hero__image">
+          <img src="assets/images/profile_picture.png" alt="Ilija Lazarević" class="hero__headshot">
+        </div>
+        <div class="hero__text">
+          <h1 class="hero__title">Turning ‘We Should Use AI’ Into Working Solutions</h1>
+          <p class="hero__subtitle">I bridge the gap between AI's promise and your business reality, with implementations that actually work.</p>
+        </div>
+      </div>
+    </section>
+    <!-- Services -->
+    <section class="services bg-linen" id="services">
+      <div class="services__inner container">
+        <h2 class="section-title">How I Help</h2>
+        <div class="services__grid">
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 24l6 6 10-12" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3 class="service-card__title">AI Strategy Consulting</h3>
+            <p class="service-card__desc">Separating real AI opportunities from expensive noise. Get a clear-eyed assessment of where AI creates actual value for your business.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><path d="M18 18h12v12H18z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M22 14v4M26 14v4M22 30v4M26 30v4M14 22h4M14 26h4M30 22h4M30 26h4" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3 class="service-card__title">Hands-On Implementation</h3>
+            <p class="service-card__desc">Building production AI systems that actually work. From architecture to deployment, I provide guidance with the implementation.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 28c0-4.4 3.6-8 8-8s8 3.6 8 8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="20" r="2" fill="currentColor"/><circle cx="28" cy="20" r="2" fill="currentColor"/></svg>
+            </div>
+            <h3 class="service-card__title">Team Training & Enablement</h3>
+            <p class="service-card__desc">Practical AI skills transfer for your team. From software engineering essentials to using AI on a daily basis.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><path d="M24 14v20M16 20l8-6 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3 class="service-card__title">Fractional CTO / Technical Leadership</h3>
+            <p class="service-card__desc">Bridging the gap between technical teams and business goals. Strategic direction with hands-on credibility.</p>
+          </div>
+        </div>
+        <div class="services__cta">
+          <a href="https://calendly.com/ilija-lazarevic/30min" class="btn btn--primary btn--large" target="_blank" rel="noopener noreferrer">Book a Discovery Call</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-accent" aria-hidden="true"></div>
+    <!-- Recommendations -->
+    <section class="recommendations bg-cream" id="recommendations">
+      <div class="recommendations__inner container">
+        <h2 class="section-title">What Clients Say</h2>
+        <div class="carousel" role="region" aria-label="Client testimonials" data-auto-advance="5" data-text-scroll-speed="30">
+          <button class="carousel__btn carousel__btn--prev" aria-label="Previous testimonial">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="carousel__track">
+            <div class="carousel__card">
+              <blockquote class="testimonial">
+                <p class="testimonial__quote">"I had the opportunity to work with Ilija on integrating AI capabilities into our resource management system. He implemented a solution that connected our internal APIs with large language model APIs and introduced a chatbot-style interface that made navigating our system significantly easier, especially for non-technical users.
+Ilija delivered the project on time and was great to collaborate with throughout the process. He combines strong technical expertise with a practical understanding of how AI can be applied to improve real-world systems. I’d definitely recommend him to anyone looking to integrate AI into their products or internal tools."</p>
+                <footer class="testimonial__author">
+                  <img src="assets/images/testimonials/1773846214056.jpeg" alt="Bojan Bjelić" class="testimonial__photo">
+                  <cite><strong>Bojan Bjelić</strong><br><span class="testimonial__role">CTO and Cofounder of OpenAnytime</span></cite>
+                </footer>
+              </blockquote>
+            </div>
+            <div class="carousel__card">
+              <blockquote class="testimonial">
+                <p class="testimonial__quote">"Ilija is a real professional, focused and skilled in the ML aspects of AI. We built a great very innovative product with him, Ilija was very pleasant to work with and we had a great time on the job. Highly recommended!"</p>
+                <footer class="testimonial__author">
+                  <img src="assets/images/testimonials/1636464099559.jpeg" alt="Erik Van Heeswijk" class="testimonial__photo">
+                  <cite><strong>Erik Van Heeswijk</strong><br><span class="testimonial__role">CEO of Smartocto</span></cite>
+                </footer>
+              </blockquote>
+            </div>
+            <div class="carousel__card">
+              <blockquote class="testimonial">
+                <p class="testimonial__quote">"I have had the opportunity to work with Ilija Lazarević in various professional contexts. As a Senior Machine Learning Engineer at smartocto, he was the backbone of the development and engineering tasks carried out by my team. I quickly realized that Ilija is an exceptionally reliable and efficient engineer who approaches every task with an eye for potential innovation. Together, we easily embraced the development of applications and services based on generative AI just a few weeks after these technologies became available. As a lecturer, Ilija delivered a course on the fundamentals of Machine Learning and Data Science in Python through my consultancy company, DataKolektiv. I remember that even then, before our collaboration at smartocto, I realized that he was simply the best Python programmer I had ever met. Finally, we were co-founders of the Serbian association of ML, AI, and Data Science professionals, MACHINERY, which crowned our collaboration with a wide circle of colleagues in these fields through the organization of numerous events, conferences, and discussions. Over the years of working together, we became friends and developed a deep mutual respect. Therefore, I can only give the highest recommendation for Ilija Lazarević, relying on my first-hand knowledge of his work, as well as my trust and respect for him as both a person and a professional."</p>
+                <footer class="testimonial__author">
+                  <img src="assets/images/testimonials/1724097870405.jpeg" alt="Goran S. Milovanović, Phd" class="testimonial__photo">
+                  <cite><strong>Goran S. Milovanović, Phd</strong><br><span class="testimonial__role">Chief AI Officer at Smartocto</span></cite>
+                </footer>
+              </blockquote>
+            </div>
+            <div class="carousel__card">
+              <blockquote class="testimonial">
+                <p class="testimonial__quote">"Ilija and me worked together in Smartocto for more than a year. He always delivered high-quality results and respected agreed deadlines. His expertise in ML and AI was evident throughout our collaboration, and his contributions added real value to the Smartocto product. I would gladly recommend him to any team or organization."</p>
+                <footer class="testimonial__author">
+                  <img src="assets/images/testimonials/1593587115972.jpeg" alt="Ilija Suša" class="testimonial__photo">
+                  <cite><strong>Ilija Suša</strong><br><span class="testimonial__role">Chief Data Officer at Smartocto</span></cite>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+          <button class="carousel__btn carousel__btn--next" aria-label="Next testimonial">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-accent" aria-hidden="true"></div>
+    <!-- Videos -->
+    <section class="videos bg-cream" id="videos">
+      <div class="videos__inner container">
+        <h2 class="section-title">Speaking & Media</h2>
+        <div class="videos__filters">
+          <button class="filter-pill filter-pill--active" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-pill" data-filter="talk" aria-pressed="false">Talks</button>
+          <button class="filter-pill" data-filter="media" aria-pressed="false">Media</button>
+        </div>
+        <div class="videos__grid">
+          <button class="video-card" data-category="media" data-youtube-id="hK7YNMI8UgA" data-youtube-start="0" data-title="Oportunities and dangers of AI — Newsmax Balkans 2025" type="button">
+            <div class="video-card__thumb video-card__thumb--1" style="background-image: url('assets/images/videos/newsmax.jpg'); background-size: cover; background-position: center;" aria-hidden="true">
+              <div class="video-card__play" aria-hidden="true"></div>
+            </div>
+            <div class="video-card__body">
+              <h3 class="video-card__title">Oportunities and dangers of AI</h3>
+              <p class="video-card__meta">Newsmax Balkans <span class="video-card__dot">&middot;</span> 2025</p>
+              <span class="video-card__badge">Media</span>
+            </div>
+          </button>
+          <button class="video-card" data-category="talk" data-youtube-id="G70zQdLlmC8" data-youtube-start="" data-title="From Algorithms to Assets: Data Science Meets Real Estate — DSC Europe 2023" type="button">
+            <div class="video-card__thumb video-card__thumb--2" style="background-image: url('assets/images/videos/dsc2023.png'); background-size: cover; background-position: center;" aria-hidden="true">
+              <div class="video-card__play" aria-hidden="true"></div>
+            </div>
+            <div class="video-card__body">
+              <h3 class="video-card__title">From Algorithms to Assets: Data Science Meets Real Estate</h3>
+              <p class="video-card__meta">DSC Europe <span class="video-card__dot">&middot;</span> 2023</p>
+              <span class="video-card__badge">Talk</span>
+            </div>
+          </button>
+          <button class="video-card" data-category="talk" data-youtube-id="0Jx_CACYSaI" data-youtube-start="7080" data-title="Real estate and property price prediction — Machine Learning Conference 2023" type="button">
+            <div class="video-card__thumb video-card__thumb--3" style="background-image: url('assets/images/videos/mlc2023.png'); background-size: cover; background-position: center;" aria-hidden="true">
+              <div class="video-card__play" aria-hidden="true"></div>
+            </div>
+            <div class="video-card__body">
+              <h3 class="video-card__title">Real estate and property price prediction</h3>
+              <p class="video-card__meta">Machine Learning Conference <span class="video-card__dot">&middot;</span> 2023</p>
+              <span class="video-card__badge">Talk</span>
+            </div>
+          </button>
+          <button class="video-card" data-category="talk" data-youtube-id="CGy16B2bQXU" data-youtube-start="15223" data-title="The promise of generative AI — Machine Learning Conference 2025" type="button">
+            <div class="video-card__thumb video-card__thumb--4" style="background-image: url('assets/images/videos/mlc2025.png'); background-size: cover; background-position: center;" aria-hidden="true">
+              <div class="video-card__play" aria-hidden="true"></div>
+            </div>
+            <div class="video-card__body">
+              <h3 class="video-card__title">The promise of generative AI</h3>
+              <p class="video-card__meta">Machine Learning Conference <span class="video-card__dot">&middot;</span> 2025</p>
+              <span class="video-card__badge">Talk</span>
+            </div>
+          </button>
+        </div>
+        <div class="videos__more">
+          <button class="btn btn--outline" id="videos-more" type="button">More</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-accent" aria-hidden="true"></div>
+    <!-- Gallery -->
+    <section class="gallery bg-cream" id="gallery">
+      <div class="gallery__inner container">
+        <h2 class="section-title">In Action</h2>
+      </div>
+      <div class="filmstrip" role="region" aria-label="Photo gallery">
+        <div class="filmstrip__track" id="filmstrip-track">
+          <figure class="filmstrip__item">
+            <div class="filmstrip__image filmstrip__image--1" style="background-image: url('assets/images/gallery/bpf2023.png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+            <figcaption class="filmstrip__caption"> Keynote: How can Artificial Intelligence transform real estate investments?</figcaption>
+          </figure>
+          <figure class="filmstrip__item">
+            <div class="filmstrip__image filmstrip__image--2" style="background-image: url('assets/images/gallery/bpf2024.png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+            <figcaption class="filmstrip__caption">Belgrade Property Forum 2024</figcaption>
+          </figure>
+          <figure class="filmstrip__item">
+            <div class="filmstrip__image filmstrip__image--3" style="background-image: url('assets/images/gallery/bpf2025.png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+            <figcaption class="filmstrip__caption">Belgrade Property Forum 2025</figcaption>
+          </figure>
+          <figure class="filmstrip__item">
+            <div class="filmstrip__image filmstrip__image--4" style="background-image: url('assets/images/gallery/mlc2023.png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+            <figcaption class="filmstrip__caption">Workshop: Data Science Introduction</figcaption>
+          </figure>
+          <figure class="filmstrip__item">
+            <div class="filmstrip__image filmstrip__image--5" style="background-image: url('assets/images/gallery/mlc2025.png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+            <figcaption class="filmstrip__caption">Program coordinator for Machine Learning Conference 2025</figcaption>
+          </figure>
+          <figure class="filmstrip__item">
+            <div class="filmstrip__image filmstrip__image--6" style="background-image: url('assets/images/gallery/rebec2025.png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+            <figcaption class="filmstrip__caption">The digital world of real estate: Reality, dilemmas and future</figcaption>
+          </figure>
+          <figure class="filmstrip__item">
+            <div class="filmstrip__image filmstrip__image--1" style="background-image: url('assets/images/gallery/rebec2024.png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+            <figcaption class="filmstrip__caption">AI in Real Estate: Transforming the Industry</figcaption>
+          </figure>
+          <figure class="filmstrip__item">
+            <div class="filmstrip__image filmstrip__image--2" style="background-image: url('assets/images/gallery/datakolektiv.png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+            <figcaption class="filmstrip__caption">Course: Introduction to Data Science in Python</figcaption>
+          </figure>
+          <!-- Duplicated for seamless loop -->
+          <figure class="filmstrip__item" aria-hidden="true">
+            <div class="filmstrip__image filmstrip__image--1" style="background-image: url('assets/images/gallery/bpf2023.png'); background-size: cover; background-position: center;"></div>
+            <figcaption class="filmstrip__caption"> Keynote: How can Artificial Intelligence transform real estate investments?</figcaption>
+          </figure>
+          <figure class="filmstrip__item" aria-hidden="true">
+            <div class="filmstrip__image filmstrip__image--2" style="background-image: url('assets/images/gallery/bpf2024.png'); background-size: cover; background-position: center;"></div>
+            <figcaption class="filmstrip__caption">Belgrade Property Forum 2024</figcaption>
+          </figure>
+          <figure class="filmstrip__item" aria-hidden="true">
+            <div class="filmstrip__image filmstrip__image--3" style="background-image: url('assets/images/gallery/bpf2025.png'); background-size: cover; background-position: center;"></div>
+            <figcaption class="filmstrip__caption">Belgrade Property Forum 2025</figcaption>
+          </figure>
+          <figure class="filmstrip__item" aria-hidden="true">
+            <div class="filmstrip__image filmstrip__image--4" style="background-image: url('assets/images/gallery/mlc2023.png'); background-size: cover; background-position: center;"></div>
+            <figcaption class="filmstrip__caption">Workshop: Data Science Introduction</figcaption>
+          </figure>
+          <figure class="filmstrip__item" aria-hidden="true">
+            <div class="filmstrip__image filmstrip__image--5" style="background-image: url('assets/images/gallery/mlc2025.png'); background-size: cover; background-position: center;"></div>
+            <figcaption class="filmstrip__caption">Program coordinator for Machine Learning Conference 2025</figcaption>
+          </figure>
+          <figure class="filmstrip__item" aria-hidden="true">
+            <div class="filmstrip__image filmstrip__image--6" style="background-image: url('assets/images/gallery/rebec2025.png'); background-size: cover; background-position: center;"></div>
+            <figcaption class="filmstrip__caption">The digital world of real estate: Reality, dilemmas and future</figcaption>
+          </figure>
+          <figure class="filmstrip__item" aria-hidden="true">
+            <div class="filmstrip__image filmstrip__image--1" style="background-image: url('assets/images/gallery/rebec2024.png'); background-size: cover; background-position: center;"></div>
+            <figcaption class="filmstrip__caption">AI in Real Estate: Transforming the Industry</figcaption>
+          </figure>
+          <figure class="filmstrip__item" aria-hidden="true">
+            <div class="filmstrip__image filmstrip__image--2" style="background-image: url('assets/images/gallery/datakolektiv.png'); background-size: cover; background-position: center;"></div>
+            <figcaption class="filmstrip__caption">Course: Introduction to Data Science in Python</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+    <div class="lightbox__backdrop"></div>
+    <div class="lightbox__content">
+      <button class="lightbox__close" aria-label="Close video">&times;</button>
+      <div class="lightbox__player"></div>
+      <p class="lightbox__title"></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer-cta">
+    <div class="footer__inner container">
+      <div class="footer__cta">
+        <h2 class="footer__heading">Ready to move past the hype?</h2>
+        <a href="https://calendly.com/ilija-lazarevic/30min" class="btn btn--primary btn--large btn--on-dark" target="_blank" rel="noopener noreferrer">Book a Discovery Call</a>
+      </div>
+      <div class="footer__links">
+        <a href="https://www.linkedin.com/in/ilijalazarevic/" class="footer__social" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+      <p class="footer__copy">&copy; 2026 Ilija Lazarević. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
