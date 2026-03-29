@@ -394,9 +394,9 @@
 
   if (filmstripTrack) {
     var filmstrip = filmstripTrack.closest('.filmstrip');
-    var isDragging = false;   // true while user is actively dragging
-    var animationId = null;   // rAF id for the auto-scroll loop
-    var paused = false;       // true when auto-scroll should be paused (hover, touch, reduced-motion)
+    var isDragging = false;     // true while user is actively dragging
+    var scrollInterval = null;  // setInterval id for the auto-scroll loop
+    var paused = false;         // true when auto-scroll should be paused (hover, touch, reduced-motion)
 
     // The track contains items twice for the seamless loop.
     // halfWidth = width of one copy = the wrap-around point.
@@ -433,29 +433,35 @@
     });
 
     /*
-     * Auto-scroll loop — runs every animation frame.
-     * When not paused/dragging, advances scrollPos by pxPerFrame each frame,
+     * Auto-scroll loop — runs on a ~60 fps setInterval.
+     *
+     * We use setInterval instead of requestAnimationFrame because iOS Safari
+     * defers/throttles rAF callbacks until the first user interaction (touch
+     * or scroll) as a power-saving optimization. setInterval is not subject
+     * to this pre-interaction throttling on foreground pages, so the filmstrip
+     * starts scrolling immediately on page load.
+     *
+     * When not paused/dragging, each tick advances scrollPos by pxPerFrame,
      * wraps around at halfWidth, and renders via translateX.
      */
-    function autoScroll() {
+    function autoScrollTick() {
       if (!paused && !isDragging) {
         scrollPos += pxPerFrame;
         wrapPos();
         applyTransform();
       }
-      animationId = requestAnimationFrame(autoScroll);
     }
 
     function startAutoScroll() {
-      if (!animationId) {
-        animationId = requestAnimationFrame(autoScroll);
+      if (!scrollInterval) {
+        scrollInterval = setInterval(autoScrollTick, 16);
       }
     }
 
     function stopAutoScroll() {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
+      if (scrollInterval) {
+        clearInterval(scrollInterval);
+        scrollInterval = null;
       }
     }
 
