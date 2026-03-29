@@ -197,7 +197,10 @@
       advanceTimer = setTimeout(next, autoAdvanceMs);
     }
 
+    var scrollDelayId = null;
+
     function cancelTextScroll() {
+      if (scrollDelayId) { clearTimeout(scrollDelayId); scrollDelayId = null; }
       if (scrollAnimId) { cancelAnimationFrame(scrollAnimId); scrollAnimId = null; }
     }
 
@@ -234,6 +237,16 @@
 
       var scrollOffset = startOffset || 0;
       savedScrollOffset = scrollOffset;
+
+      // Delay before scrolling starts so user can read visible text
+      if (scrollOffset === 0) {
+        scrollDelayId = setTimeout(function () {
+          scrollDelayId = null;
+          if (isPaused) return;
+          scrollAnimId = requestAnimationFrame(step);
+        }, 3000);
+        return;
+      }
 
       function step() {
         if (isPaused) return;
@@ -357,61 +370,113 @@
       }
     }
 
-    // Pause on hover (desktop only — pointer events handle touch)
-    filmstrip.addEventListener('mouseenter', function () {
-      paused = true;
-    });
+    // Pause on hover — only for devices that actually support hover (not touch)
+    var canHover = window.matchMedia('(hover: hover)');
+    if (canHover.matches) {
+      filmstrip.addEventListener('mouseenter', function () {
+        paused = true;
+      });
+      filmstrip.addEventListener('mouseleave', function () {
+        if (!isDragging) {
+          paused = false;
+        }
+      });
+    }
 
-    filmstrip.addEventListener('mouseleave', function () {
-      if (!isDragging) {
-        paused = false;
-      }
-    });
-
-    // Drag to scroll
+    // Drag helpers
     var startX = 0;
     var dragScrollLeft = 0;
 
-    filmstrip.addEventListener('pointerdown', function (e) {
+    function wrapScroll() {
+      if (filmstrip.scrollLeft >= halfScrollWidth) {
+        filmstrip.scrollLeft -= halfScrollWidth;
+        dragScrollLeft = filmstrip.scrollLeft;
+      } else if (filmstrip.scrollLeft < 1) {
+        filmstrip.scrollLeft += halfScrollWidth;
+        dragScrollLeft = filmstrip.scrollLeft;
+      }
+    }
+
+    function endDrag() {
+      isDragging = false;
+      paused = false;
+    }
+
+    // Desktop: mouse-based drag
+    filmstrip.addEventListener('mousedown', function (e) {
       isDragging = true;
       paused = true;
       startX = e.pageX - filmstrip.offsetLeft;
       dragScrollLeft = filmstrip.scrollLeft;
-      filmstrip.setPointerCapture(e.pointerId);
+      e.preventDefault();
     });
 
-    filmstrip.addEventListener('pointermove', function (e) {
+    document.addEventListener('mousemove', function (e) {
       if (!isDragging) return;
-      e.preventDefault();
       var x = e.pageX - filmstrip.offsetLeft;
       var walk = (x - startX) * 1.5;
       filmstrip.scrollLeft = dragScrollLeft - walk;
-      // Wrap around when dragging past boundaries
-      if (filmstrip.scrollLeft >= halfScrollWidth) {
-        filmstrip.scrollLeft -= halfScrollWidth;
-        dragScrollLeft = filmstrip.scrollLeft;
-        startX = x;
-      } else if (filmstrip.scrollLeft < 1) {
-        filmstrip.scrollLeft += halfScrollWidth;
-        dragScrollLeft = filmstrip.scrollLeft;
-        startX = x;
+      wrapScroll();
+    });
+
+    document.addEventListener('mouseup', function () {
+      if (isDragging) endDrag();
+    });
+
+    // Mobile: touch-based drag
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var touchLocked = false; // locked to horizontal drag
+
+    filmstrip.addEventListener('touchstart', function (e) {
+      var t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchLocked = false;
+      isDragging = false;
+      dragScrollLeft = filmstrip.scrollLeft;
+      paused = true;
+    }, { passive: true });
+
+    filmstrip.addEventListener('touchmove', function (e) {
+      var t = e.touches[0];
+      var dx = t.clientX - touchStartX;
+      var dy = t.clientY - touchStartY;
+
+      // Determine direction on first significant move
+      if (!touchLocked && !isDragging) {
+        if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+          if (Math.abs(dx) > Math.abs(dy)) {
+            // Horizontal — we take over
+            touchLocked = true;
+            isDragging = true;
+            startX = t.clientX;
+            dragScrollLeft = filmstrip.scrollLeft;
+          } else {
+            // Vertical — let browser scroll the page
+            return;
+          }
+        } else {
+          return;
+        }
       }
-    });
 
-    filmstrip.addEventListener('pointerup', function () {
-      isDragging = false;
-      paused = false;
-    });
+      if (!touchLocked) return;
 
-    filmstrip.addEventListener('pointercancel', function () {
-      isDragging = false;
-      paused = false;
-    });
+      e.preventDefault();
+      var x = t.clientX;
+      var walk = (x - startX) * 1.5;
+      filmstrip.scrollLeft = dragScrollLeft - walk;
+      wrapScroll();
+    }, { passive: false });
 
-    filmstrip.addEventListener('lostpointercapture', function () {
-      isDragging = false;
-      paused = false;
-    });
+    filmstrip.addEventListener('touchend', function () {
+      endDrag();
+    }, { passive: true });
+
+    filmstrip.addEventListener('touchcancel', function () {
+      endDrag();
+    }, { passive: true });
 
     // Respect prefers-reduced-motion
     var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
