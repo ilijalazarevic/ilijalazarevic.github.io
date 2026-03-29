@@ -126,6 +126,16 @@
 
   /* ------------------------------------------
      4. Recommendations carousel (fade + auto-scroll text)
+     ------------------------------------------
+     Each testimonial card fades in one at a time. If the quote text
+     is taller than the visible area, it auto-scrolls upward so the
+     user can read the full text. After scrolling finishes (or if the
+     text fits), the carousel waits a few seconds then advances to
+     the next card.
+
+     Flow per card:
+       showCard → 3 s read delay → text scrolls up → scheduleAdvance
+       → wait autoAdvanceMs → next card
      ------------------------------------------ */
   var carousel = document.querySelector('.carousel');
   var carouselTrack = document.querySelector('.carousel__track');
@@ -135,27 +145,38 @@
   if (carouselTrack && prevBtn && nextBtn) {
     var cards = carouselTrack.querySelectorAll('.carousel__card');
     var currentIndex = 0;
-    var autoAdvanceMs = (parseInt(carousel.dataset.autoAdvance) || 5) * 1000;
-    var scrollPxPerSec = parseInt(carousel.dataset.textScrollSpeed) || 30;
-    var pxPerFrame = scrollPxPerSec / 60;
-    var advanceTimer = null;
-    var scrollAnimId = null;
-    var isPaused = false;
+
+    /* --- Timing config (data-attributes on .carousel, with defaults) --- */
+    var autoAdvanceMs = (parseInt(carousel.dataset.autoAdvance) || 5) * 1000;  // delay after text finishes scrolling before moving to next card
+    var scrollPxPerSec = parseInt(carousel.dataset.textScrollSpeed) || 30;     // how fast the quote text scrolls up
+    var pxPerFrame = scrollPxPerSec / 60;  // converted to per-frame increment at ~60 fps
+
+    /* --- State --- */
+    var advanceTimer = null;   // setTimeout id for advancing to next card
+    var scrollAnimId = null;   // requestAnimationFrame id for text scrolling
+    var scrollDelayId = null;  // setTimeout id for the initial 3 s read delay
+    var isPaused = false;      // true when user is interacting (hover / touch)
+    var savedScrollOffset = 0; // how far the current quote has scrolled (px), so resume can continue from here
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    // Initialize: first card active
+    // Mark the first card as visible on load
     cards[0].classList.add('active');
 
+    /* --- Helpers --- */
+
+    // Returns the .testimonial__quote element inside the currently active card
     function getActiveQuote() {
       var activeCard = cards[currentIndex];
       return activeCard ? activeCard.querySelector('.testimonial__quote') : null;
     }
 
+    // Transition to a specific card by index
     function showCard(index) {
+      // Stop any in-progress scroll animation and pending advance timer
       cancelTextScroll();
       clearAdvanceTimer();
 
-      // Clean up old card's quote
+      // Reset the old card's quote position and CSS state
       var oldQuote = getActiveQuote();
       if (oldQuote) {
         oldQuote.classList.remove('no-overflow', 'scrolled-end');
@@ -163,11 +184,12 @@
         if (oldInner) oldInner.style.transform = '';
       }
 
+      // Swap active class: hide old card, show new one (CSS opacity transition)
       cards[currentIndex].classList.remove('active');
       currentIndex = index;
       cards[currentIndex].classList.add('active');
 
-      // Reset new card's quote and start auto-scroll
+      // Reset the new card's quote so it starts from the top
       var newQuote = getActiveQuote();
       if (newQuote) {
         var newInner = newQuote.querySelector('.testimonial__quote-inner');
@@ -175,10 +197,12 @@
         newQuote.classList.remove('no-overflow', 'scrolled-end');
       }
 
+      // Begin the auto-scroll sequence for this card (3 s delay → scroll → advance)
       savedScrollOffset = 0;
       autoScrollText();
     }
 
+    // Convenience wrappers for cycling through cards
     function next() {
       showCard((currentIndex + 1) % cards.length);
     }
@@ -187,37 +211,47 @@
       showCard((currentIndex - 1 + cards.length) % cards.length);
     }
 
+    // Cancel the pending "advance to next card" timer
     function clearAdvanceTimer() {
       if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
     }
 
+    // Schedule advancing to the next card after autoAdvanceMs
     function scheduleAdvance() {
       clearAdvanceTimer();
       if (reducedMotion.matches || isPaused) return;
       advanceTimer = setTimeout(next, autoAdvanceMs);
     }
 
-    var scrollDelayId = null;
-
+    // Cancel both the initial read delay and the rAF scroll animation
     function cancelTextScroll() {
       if (scrollDelayId) { clearTimeout(scrollDelayId); scrollDelayId = null; }
       if (scrollAnimId) { cancelAnimationFrame(scrollAnimId); scrollAnimId = null; }
     }
 
-    // Track current scroll offset per card so resume continues from where it paused
-    var savedScrollOffset = 0;
-
+    // Pause all carousel automation (text scroll + card advance)
     function pause() {
       isPaused = true;
       cancelTextScroll();
       clearAdvanceTimer();
     }
 
+    // Resume from wherever we left off
     function resume() {
       isPaused = false;
       autoScrollText(savedScrollOffset);
     }
 
+    /*
+     * Core auto-scroll logic for the active quote text.
+     *
+     * 1. If text fits within the visible area → mark as no-overflow, schedule advance.
+     * 2. If starting from offset 0 → wait 3 s (read delay) then begin scrolling.
+     * 3. Otherwise → animate translateY upward at pxPerFrame per animation frame.
+     * 4. When fully scrolled → mark as scrolled-end, schedule advance.
+     *
+     * startOffset: px offset to resume from (0 on first call, >0 when resuming after pause)
+     */
     function autoScrollText(startOffset) {
       cancelTextScroll();
       if (reducedMotion.matches || isPaused) return;
@@ -228,8 +262,10 @@
       var inner = quote.querySelector('.testimonial__quote-inner');
       if (!inner) { scheduleAdvance(); return; }
 
+      // How many px of text are hidden below the visible area
       var maxScroll = inner.scrollHeight - quote.clientHeight;
       if (maxScroll <= 1) {
+        // All text is visible — no scrolling needed, just wait then advance
         quote.classList.add('no-overflow');
         scheduleAdvance();
         return;
@@ -238,7 +274,7 @@
       var scrollOffset = startOffset || 0;
       savedScrollOffset = scrollOffset;
 
-      // Delay before scrolling starts so user can read visible text
+      // 3-second reading delay before scrolling begins (only on fresh start, not resume)
       if (scrollOffset === 0) {
         scrollDelayId = setTimeout(function () {
           scrollDelayId = null;
@@ -248,12 +284,14 @@
         return;
       }
 
+      // Animation frame callback: move text up by pxPerFrame each frame
       function step() {
         if (isPaused) return;
         scrollOffset += pxPerFrame;
         savedScrollOffset = scrollOffset;
 
         if (scrollOffset >= maxScroll) {
+          // Reached the bottom — clamp, show end state, schedule next card
           scrollOffset = maxScroll;
           savedScrollOffset = scrollOffset;
           inner.style.transform = 'translateY(-' + scrollOffset + 'px)';
@@ -263,6 +301,7 @@
           return;
         }
 
+        // Move text up by the accumulated offset
         inner.style.transform = 'translateY(-' + scrollOffset + 'px)';
         scrollAnimId = requestAnimationFrame(step);
       }
@@ -270,14 +309,26 @@
       scrollAnimId = requestAnimationFrame(step);
     }
 
+    /* --- Navigation buttons --- */
     prevBtn.addEventListener('click', function () { prev(); });
     nextBtn.addEventListener('click', function () { next(); });
 
-    // Desktop: hover to pause, leave to resume
-    carouselTrack.addEventListener('mouseenter', pause);
-    carouselTrack.addEventListener('mouseleave', resume);
+    /* --- Pause / resume on interaction ---
+     *
+     * Desktop: pause on hover, resume on leave.
+     * Mobile:  pause on tap, resume on tap outside OR after swipe navigation.
+     *
+     * IMPORTANT: mouseenter/mouseleave are gated behind (hover: hover) media query
+     * because iOS Safari fires synthetic mouseenter on touch, but may never fire
+     * mouseleave — which would permanently pause the carousel.
+     */
+    var carouselCanHover = window.matchMedia('(hover: hover)');
+    if (carouselCanHover.matches) {
+      carouselTrack.addEventListener('mouseenter', pause);
+      carouselTrack.addEventListener('mouseleave', resume);
+    }
 
-    // Mobile: tap to pause, tap outside to resume
+    // Mobile: tap carousel to pause, tap outside to resume
     carouselTrack.addEventListener('touchstart', function () {
       if (!isPaused) pause();
     }, { passive: true });
@@ -286,11 +337,12 @@
       if (isPaused && !carouselTrack.contains(e.target)) resume();
     }, { passive: true });
 
-    // Mobile: swipe left/right to switch testimonials
+    /* --- Mobile: swipe left/right to switch testimonials --- */
     var swipeStartX = 0;
     var swipeStartY = 0;
     var swipeTracking = false;
 
+    // Record finger position at start of touch
     carouselTrack.addEventListener('touchstart', function (e) {
       var touch = e.touches[0];
       swipeStartX = touch.clientX;
@@ -298,43 +350,55 @@
       swipeTracking = true;
     }, { passive: true });
 
+    // On release, check if finger moved >50 px horizontally (and more horizontal than vertical)
     carouselTrack.addEventListener('touchend', function (e) {
       if (!swipeTracking) return;
       swipeTracking = false;
       var touch = e.changedTouches[0];
       var dx = touch.clientX - swipeStartX;
       var dy = touch.clientY - swipeStartY;
-      // Only trigger if horizontal swipe > 50px and more horizontal than vertical
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        // Swipe left → next card, swipe right → previous card
         if (dx < 0) { next(); } else { prev(); }
       }
     }, { passive: true });
 
-    // Kick off auto-scroll for the first card
+    // Start the carousel on page load
     autoScrollText();
   }
 
   /* ------------------------------------------
      5. Filmstrip: JS-based scroll loop + drag
+     ------------------------------------------
+     The gallery section is a horizontally-scrolling filmstrip of photos.
+     The HTML contains the items twice (duplicated) so we can create a
+     seamless infinite loop: when scrollLeft reaches the halfway point
+     (= width of the original set), we jump back to the start — the
+     user never sees a seam because both halves are identical.
+
+     Auto-scroll runs continuously via requestAnimationFrame.
+     Users can also drag (desktop: mouse, mobile: touch) to scrub
+     through the strip manually.
      ------------------------------------------ */
   var filmstripTrack = document.getElementById('filmstrip-track');
 
   if (filmstripTrack) {
     var filmstrip = filmstripTrack.closest('.filmstrip');
-    var isDragging = false;
-    var animationId = null;
-    var paused = false;
+    var isDragging = false;   // true while user is actively dragging
+    var animationId = null;   // rAF id for the auto-scroll loop
+    var paused = false;       // true when auto-scroll should be paused (hover, touch, reduced-motion)
 
-    // Half the scroll width = width of the original (non-duplicated) items
+    // Half the total scrollWidth = width of one copy of the items.
+    // This is the wrap-around point for the seamless loop.
     var halfScrollWidth = filmstripTrack.scrollWidth / 2;
 
-    // Match the old 40s CSS animation speed: full half-width in 40s at ~60fps
+    // Scroll speed: traverse the full half-width in 40 seconds at ~60 fps
     var pxPerFrame = halfScrollWidth / (40 * 60);
 
-    // Start at a small offset so the <= 0 wrap condition doesn't fire on first frame
+    // Start at 1 px so the "scroll < 1" wrap check doesn't trigger on the first frame
     filmstrip.scrollLeft = 1;
 
-    // Recalculate dimensions on resize / orientation change
+    // Recalculate dimensions when the viewport changes (resize / orientation)
     var resizeTimer;
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimer);
@@ -344,10 +408,16 @@
       }, 200);
     });
 
+    /*
+     * Auto-scroll loop — runs every animation frame.
+     * When not paused/dragging, advances scrollLeft by a tiny amount each frame.
+     * Wraps around seamlessly in both directions.
+     */
     function autoScroll() {
       if (!paused && !isDragging) {
         filmstrip.scrollLeft += pxPerFrame;
-        // Seamless loop: wrap in both directions
+
+        // Seamless loop: if we've scrolled past the halfway point, jump back
         if (filmstrip.scrollLeft >= halfScrollWidth) {
           filmstrip.scrollLeft -= halfScrollWidth;
         } else if (filmstrip.scrollLeft < 1) {
@@ -370,7 +440,10 @@
       }
     }
 
-    // Pause on hover — only for devices that actually support hover (not touch)
+    /* --- Pause on hover (desktop only) ---
+     * Gated behind (hover: hover) media query so iOS Safari's synthetic
+     * mouseenter events (fired on touch) don't permanently pause the strip.
+     */
     var canHover = window.matchMedia('(hover: hover)');
     if (canHover.matches) {
       filmstrip.addEventListener('mouseenter', function () {
@@ -383,10 +456,12 @@
       });
     }
 
-    // Drag helpers
-    var startX = 0;
-    var dragScrollLeft = 0;
+    /* --- Drag helpers --- */
+    var startX = 0;          // cursor/finger X position when drag started
+    var dragScrollLeft = 0;  // filmstrip.scrollLeft when drag started
 
+    // After dragging, scrollLeft may have moved past the wrap-around point.
+    // This resets it to the equivalent position in the other half.
     function wrapScroll() {
       if (filmstrip.scrollLeft >= halfScrollWidth) {
         filmstrip.scrollLeft -= halfScrollWidth;
@@ -397,22 +472,37 @@
       }
     }
 
+    // End any drag and resume auto-scroll
     function endDrag() {
       isDragging = false;
       paused = false;
     }
 
-    // Desktop: mouse-based drag
+    /* --- Desktop: mouse-based drag ---
+     * mousedown on filmstrip starts the drag; mousemove/mouseup are on
+     * document so dragging works even if the cursor leaves the filmstrip.
+     *
+     * Ghost-click guard: iOS Safari fires synthetic mouse events after touch
+     * (touchstart → touchend → mousedown → mouseup). Without the timestamp
+     * check, the synthetic mousedown would re-set isDragging/paused=true
+     * right after touchend cleared them, permanently freezing auto-scroll.
+     */
+    var lastTouchTime = 0;  // timestamp of the most recent touchstart
+
     filmstrip.addEventListener('mousedown', function (e) {
+      // Ignore synthetic mouse events fired by iOS Safari after a touch
+      if (Date.now() - lastTouchTime < 800) return;
+
       isDragging = true;
       paused = true;
       startX = e.pageX - filmstrip.offsetLeft;
       dragScrollLeft = filmstrip.scrollLeft;
-      e.preventDefault();
+      e.preventDefault();  // prevent text selection while dragging
     });
 
     document.addEventListener('mousemove', function (e) {
       if (!isDragging) return;
+      // Calculate how far the mouse moved and scroll proportionally (1.5× multiplier for responsiveness)
       var x = e.pageX - filmstrip.offsetLeft;
       var walk = (x - startX) * 1.5;
       filmstrip.scrollLeft = dragScrollLeft - walk;
@@ -423,19 +513,28 @@
       if (isDragging) endDrag();
     });
 
-    // Mobile: touch-based drag
+    /* --- Mobile: touch-based drag ---
+     * Uses dedicated touch events instead of pointer events because
+     * setPointerCapture is unreliable on iOS Safari (causes "sticky" drag).
+     *
+     * Direction detection: on first significant move (>8 px), we check
+     * whether the gesture is horizontal or vertical. Horizontal → we take
+     * over and drag the filmstrip. Vertical → we bail out so the browser
+     * can scroll the page normally.
+     */
     var touchStartX = 0;
     var touchStartY = 0;
-    var touchLocked = false; // locked to horizontal drag
+    var touchLocked = false;  // once true, this gesture is a horizontal filmstrip drag
 
     filmstrip.addEventListener('touchstart', function (e) {
+      lastTouchTime = Date.now();  // record for ghost-click guard
       var t = e.touches[0];
       touchStartX = t.clientX;
       touchStartY = t.clientY;
       touchLocked = false;
       isDragging = false;
       dragScrollLeft = filmstrip.scrollLeft;
-      paused = true;
+      paused = true;  // pause auto-scroll while finger is down
     }, { passive: true });
 
     filmstrip.addEventListener('touchmove', function (e) {
@@ -443,32 +542,34 @@
       var dx = t.clientX - touchStartX;
       var dy = t.clientY - touchStartY;
 
-      // Determine direction on first significant move
+      // First significant move — decide direction
       if (!touchLocked && !isDragging) {
         if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
           if (Math.abs(dx) > Math.abs(dy)) {
-            // Horizontal — we take over
+            // Horizontal gesture — lock to filmstrip drag
             touchLocked = true;
             isDragging = true;
             startX = t.clientX;
             dragScrollLeft = filmstrip.scrollLeft;
           } else {
-            // Vertical — let browser scroll the page
+            // Vertical gesture — let browser handle page scroll
             return;
           }
         } else {
+          // Movement too small to classify — wait for more data
           return;
         }
       }
 
       if (!touchLocked) return;
 
+      // Prevent vertical scroll while we're dragging horizontally
       e.preventDefault();
       var x = t.clientX;
       var walk = (x - startX) * 1.5;
       filmstrip.scrollLeft = dragScrollLeft - walk;
       wrapScroll();
-    }, { passive: false });
+    }, { passive: false });  // passive: false required so preventDefault() works
 
     filmstrip.addEventListener('touchend', function () {
       endDrag();
@@ -478,19 +579,15 @@
       endDrag();
     }, { passive: true });
 
-    // Respect prefers-reduced-motion
+    /* --- Respect prefers-reduced-motion --- */
     var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     function handleReducedMotion(mq) {
-      if (mq.matches) {
-        paused = true;
-      } else {
-        paused = false;
-      }
+      paused = mq.matches;
     }
     handleReducedMotion(motionQuery);
     motionQuery.addEventListener('change', handleReducedMotion);
 
-    // Start the scroll loop
+    // Kick off the auto-scroll loop
     startAutoScroll();
   }
 
