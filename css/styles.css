@@ -931,16 +931,11 @@ ul {
 }
 
 .filmstrip {
-  overflow-x: auto;
-  scrollbar-width: none;
+  overflow: hidden;
   cursor: grab;
   user-select: none;
   touch-action: pan-y;
   padding: 0 var(--space-md);
-}
-
-.filmstrip::-webkit-scrollbar {
-  display: none;
 }
 
 .filmstrip:active {
@@ -951,6 +946,7 @@ ul {
   display: flex;
   gap: var(--space-md);
   width: max-content;
+  will-change: transform;
 }
 
 .filmstrip__item {

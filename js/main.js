@@ -370,15 +370,25 @@
   /* ------------------------------------------
      5. Filmstrip: JS-based scroll loop + drag
      ------------------------------------------
-     The gallery section is a horizontally-scrolling filmstrip of photos.
+     The gallery is a horizontally-scrolling filmstrip of photos.
      The HTML contains the items twice (duplicated) so we can create a
-     seamless infinite loop: when scrollLeft reaches the halfway point
-     (= width of the original set), we jump back to the start — the
-     user never sees a seam because both halves are identical.
+     seamless infinite loop: when the position reaches the halfway point
+     (= total width of the original set), we jump back to the start —
+     the user never sees a seam because both halves are identical.
+
+     We use CSS transform (translateX) on the track element instead of
+     scrollLeft on the container. This is critical for iOS Safari, which
+     does not reliably repaint programmatic scrollLeft changes made inside
+     requestAnimationFrame — only user-gesture-driven scrollLeft updates
+     are visually rendered. CSS transforms are GPU-composited and always
+     repaint correctly on all platforms.
+
+     A single `scrollPos` variable (float) tracks the current offset in px.
+     Both auto-scroll and drag read/write this variable, then apply it via
+     translateX. This avoids sub-pixel rounding issues with scrollLeft.
 
      Auto-scroll runs continuously via requestAnimationFrame.
-     Users can also drag (desktop: mouse, mobile: touch) to scrub
-     through the strip manually.
+     Users can also drag (desktop: mouse, mobile: touch) to scrub manually.
      ------------------------------------------ */
   var filmstripTrack = document.getElementById('filmstrip-track');
 
@@ -388,41 +398,50 @@
     var animationId = null;   // rAF id for the auto-scroll loop
     var paused = false;       // true when auto-scroll should be paused (hover, touch, reduced-motion)
 
-    // Half the total scrollWidth = width of one copy of the items.
-    // This is the wrap-around point for the seamless loop.
-    var halfScrollWidth = filmstripTrack.scrollWidth / 2;
+    // The track contains items twice for the seamless loop.
+    // halfWidth = width of one copy = the wrap-around point.
+    var halfWidth = filmstripTrack.scrollWidth / 2;
 
     // Scroll speed: traverse the full half-width in 40 seconds at ~60 fps
-    var pxPerFrame = halfScrollWidth / (40 * 60);
+    var pxPerFrame = halfWidth / (40 * 60);
 
-    // Start at 1 px so the "scroll < 1" wrap check doesn't trigger on the first frame
-    filmstrip.scrollLeft = 1;
+    // Current position in px — this is the single source of truth.
+    // Both auto-scroll and drag update this, then applyTransform() renders it.
+    var scrollPos = 0;
+
+    // Apply the current scrollPos to the track via CSS transform
+    function applyTransform() {
+      filmstripTrack.style.transform = 'translateX(' + (-scrollPos) + 'px)';
+    }
+
+    // Keep scrollPos within [0, halfWidth) for seamless looping
+    function wrapPos() {
+      if (scrollPos >= halfWidth) scrollPos -= halfWidth;
+      else if (scrollPos < 0) scrollPos += halfWidth;
+    }
 
     // Recalculate dimensions when the viewport changes (resize / orientation)
     var resizeTimer;
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function () {
-        halfScrollWidth = filmstripTrack.scrollWidth / 2;
-        pxPerFrame = halfScrollWidth / (40 * 60);
+        halfWidth = filmstripTrack.scrollWidth / 2;
+        pxPerFrame = halfWidth / (40 * 60);
+        wrapPos();          // clamp in case new halfWidth is smaller
+        applyTransform();
       }, 200);
     });
 
     /*
      * Auto-scroll loop — runs every animation frame.
-     * When not paused/dragging, advances scrollLeft by a tiny amount each frame.
-     * Wraps around seamlessly in both directions.
+     * When not paused/dragging, advances scrollPos by pxPerFrame each frame,
+     * wraps around at halfWidth, and renders via translateX.
      */
     function autoScroll() {
       if (!paused && !isDragging) {
-        filmstrip.scrollLeft += pxPerFrame;
-
-        // Seamless loop: if we've scrolled past the halfway point, jump back
-        if (filmstrip.scrollLeft >= halfScrollWidth) {
-          filmstrip.scrollLeft -= halfScrollWidth;
-        } else if (filmstrip.scrollLeft < 1) {
-          filmstrip.scrollLeft += halfScrollWidth;
-        }
+        scrollPos += pxPerFrame;
+        wrapPos();
+        applyTransform();
       }
       animationId = requestAnimationFrame(autoScroll);
     }
@@ -456,21 +475,9 @@
       });
     }
 
-    /* --- Drag helpers --- */
-    var startX = 0;          // cursor/finger X position when drag started
-    var dragScrollLeft = 0;  // filmstrip.scrollLeft when drag started
-
-    // After dragging, scrollLeft may have moved past the wrap-around point.
-    // This resets it to the equivalent position in the other half.
-    function wrapScroll() {
-      if (filmstrip.scrollLeft >= halfScrollWidth) {
-        filmstrip.scrollLeft -= halfScrollWidth;
-        dragScrollLeft = filmstrip.scrollLeft;
-      } else if (filmstrip.scrollLeft < 1) {
-        filmstrip.scrollLeft += halfScrollWidth;
-        dragScrollLeft = filmstrip.scrollLeft;
-      }
-    }
+    /* --- Drag state --- */
+    var startX = 0;        // cursor/finger X when drag began
+    var dragStartPos = 0;  // scrollPos when drag began
 
     // End any drag and resume auto-scroll
     function endDrag() {
@@ -480,7 +487,7 @@
 
     /* --- Desktop: mouse-based drag ---
      * mousedown on filmstrip starts the drag; mousemove/mouseup are on
-     * document so dragging works even if the cursor leaves the filmstrip.
+     * document so dragging continues even if the cursor leaves the filmstrip.
      *
      * Ghost-click guard: iOS Safari fires synthetic mouse events after touch
      * (touchstart → touchend → mousedown → mouseup). Without the timestamp
@@ -495,18 +502,19 @@
 
       isDragging = true;
       paused = true;
-      startX = e.pageX - filmstrip.offsetLeft;
-      dragScrollLeft = filmstrip.scrollLeft;
+      startX = e.pageX;
+      dragStartPos = scrollPos;
       e.preventDefault();  // prevent text selection while dragging
     });
 
     document.addEventListener('mousemove', function (e) {
       if (!isDragging) return;
-      // Calculate how far the mouse moved and scroll proportionally (1.5× multiplier for responsiveness)
-      var x = e.pageX - filmstrip.offsetLeft;
-      var walk = (x - startX) * 1.5;
-      filmstrip.scrollLeft = dragScrollLeft - walk;
-      wrapScroll();
+      // Calculate how far the mouse moved and scroll proportionally
+      // (1.5× multiplier makes the drag feel more responsive)
+      var walk = (e.pageX - startX) * 1.5;
+      scrollPos = dragStartPos - walk;
+      wrapPos();
+      applyTransform();
     });
 
     document.addEventListener('mouseup', function () {
@@ -533,7 +541,7 @@
       touchStartY = t.clientY;
       touchLocked = false;
       isDragging = false;
-      dragScrollLeft = filmstrip.scrollLeft;
+      dragStartPos = scrollPos;
       paused = true;  // pause auto-scroll while finger is down
     }, { passive: true });
 
@@ -550,7 +558,7 @@
             touchLocked = true;
             isDragging = true;
             startX = t.clientX;
-            dragScrollLeft = filmstrip.scrollLeft;
+            dragStartPos = scrollPos;
           } else {
             // Vertical gesture — let browser handle page scroll
             return;
@@ -565,10 +573,10 @@
 
       // Prevent vertical scroll while we're dragging horizontally
       e.preventDefault();
-      var x = t.clientX;
-      var walk = (x - startX) * 1.5;
-      filmstrip.scrollLeft = dragScrollLeft - walk;
-      wrapScroll();
+      var walk = (t.clientX - startX) * 1.5;
+      scrollPos = dragStartPos - walk;
+      wrapPos();
+      applyTransform();
     }, { passive: false });  // passive: false required so preventDefault() works
 
     filmstrip.addEventListener('touchend', function () {
@@ -587,7 +595,8 @@
     handleReducedMotion(motionQuery);
     motionQuery.addEventListener('change', handleReducedMotion);
 
-    // Kick off the auto-scroll loop
+    // Render initial position and start the auto-scroll loop
+    applyTransform();
     startAutoScroll();
   }
 
